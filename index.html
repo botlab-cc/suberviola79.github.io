@@ -1,21 +1,45 @@
 <!DOCTYPE html>
-<html>
-  <script type="text/javascript" charset="utf-8">
-  (function (g, e, n, es, ys) {
-    g['_genesysJs'] = e;
-    g[e] = g[e] || function () {
-      (g[e].q = g[e].q || []).push(arguments)
-    };
-    g[e].t = 1 * new Date();
-    g[e].c = es;
-    ys = document.createElement('script'); ys.async = 1; ys.src = n; ys.charset = 'utf-8'; document.head.appendChild(ys);
-  })(window, 'Genesys', 'https://apps.mypurecloud.ie/genesys-bootstrap/genesys.min.js', {
-    environment: 'prod-euw1',
-    deploymentId: 'b7bde477-283e-4bf2-9ff0-32cd7a401f19'
-  });
-</script>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo de Dialogflow Messenger</title>
+  
+  <!-- Estilos del widget de Dialogflow Messenger -->
+  <link rel="stylesheet" href="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/themes/df-messenger-default.css">
+  
+  <!-- Script del widget de Dialogflow Messenger -->
+  <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
+</head>
 <body>
-<h1>¡Hola!</h1>
-<p>Bienvenido al chat de fibra óptica</p>
+
+  <h1>Bienvenido a la página demo</h1>
+  <p>Esta es una demostración del chatbot usando Dialogflow Messenger.</p>
+  
+  <!-- Widget de Dialogflow Messenger -->
+  <df-messenger
+    project-id="lqairmh-agbg-iberia-song-ccai"
+    agent-id="cd50098d-eab6-48a8-8055-6935cab79f73"
+    language-code="es"
+    max-query-length="-1">
+    <df-messenger-chat-bubble chat-title="telco-acc-genai-cx-global">
+    </df-messenger-chat-bubble>
+  </df-messenger>
+
+  <!-- Estilos personalizados para el widget -->
+  <style>
+    df-messenger {
+      z-index: 999;
+      position: fixed;
+      --df-messenger-font-color: #000;
+      --df-messenger-font-family: Google Sans;
+      --df-messenger-chat-background: #f3f6fc;
+      --df-messenger-message-user-background: #d3e3fd;
+      --df-messenger-message-bot-background: #fff;
+      bottom: 16px;
+      right: 16px;
+    }
+  </style>
+
 </body>
 </html>
