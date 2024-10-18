@@ -1,45 +1,133 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Demo de Dialogflow Messenger</title>
-  
-  <!-- Estilos del widget de Dialogflow Messenger -->
-  <link rel="stylesheet" href="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/themes/df-messenger-default.css">
-  
-  <!-- Script del widget de Dialogflow Messenger -->
-  <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco XYZ - Tu Futuro Financiero</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background: #004d99;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            margin: 20px 0;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+        .hero {
+            background: url('https://images.unsplash.com/photo-1519223299732-8f3b1d3f0800') no-repeat center center/cover;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 2.5em;
+        }
+        .hero p {
+            font-size: 1.2em;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .services {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+        }
+        .service {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 30%;
+            text-align: center;
+        }
+        .service img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #004d99;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <h1>Banco XYZ</h1>
+        <nav>
+            <a href="#services">Servicios</a>
+            <a href="#about">Sobre Nosotros</a>
+            <a href="#contact">Contacto</a>
+        </nav>
+    </header>
 
-  <h1>Bienvenido a la página demo</h1>
-  <p>Esta es una demostración del chatbot usando Dialogflow Messenger.</p>
-  
-  <!-- Widget de Dialogflow Messenger -->
-  <df-messenger
-    project-id="lqairmh-agbg-iberia-song-ccai"
-    agent-id="cd50098d-eab6-48a8-8055-6935cab79f73"
-    language-code="es"
-    max-query-length="-1">
-    <df-messenger-chat-bubble chat-title="telco-acc-genai-cx-global">
-    </df-messenger-chat-bubble>
-  </df-messenger>
+    <section class="hero">
+        <h1>Tu Futuro Financiero Comienza Aquí</h1>
+        <p>Descubre soluciones bancarias diseñadas para ti.</p>
+    </section>
 
-  <!-- Estilos personalizados para el widget -->
-  <style>
-    df-messenger {
-      z-index: 999;
-      position: fixed;
-      --df-messenger-font-color: #000;
-      --df-messenger-font-family: Google Sans;
-      --df-messenger-chat-background: #f3f6fc;
-      --df-messenger-message-user-background: #d3e3fd;
-      --df-messenger-message-bot-background: #fff;
-      bottom: 16px;
-      right: 16px;
-    }
-  </style>
+    <div class="container">
+        <section id="services">
+            <h2>Nuestros Servicios</h2>
+            <div class="services">
+                <div class="service">
+                    <img src="https://images.pexels.com/photos/4461136/pexels-photo-4461136.jpeg" alt="Cuentas Bancarias">
+                    <h3>Cuentas Bancarias</h3>
+                    <p>Administración fácil y rápida de tu dinero.</p>
+                </div>
+                <div class="service">
+                    <img src="https://images.pexels.com/photos/573509/pexels-photo-573509.jpeg" alt="Préstamos">
+                    <h3>Préstamos Personales</h3>
+                    <p>Financia tus sueños con tasas competitivas.</p>
+                </div>
+                <div class="service">
+                    <img src="https://images.pexels.com/photos/586294/pexels-photo-586294.jpeg" alt="Inversiones">
+                    <h3>Inversiones</h3>
+                    <p>Haz crecer tu dinero con nuestras opciones de inversión.</p>
+                </div>
+            </div>
+        </section>
 
+        <section id="about">
+            <h2>Sobre Nosotros</h2>
+            <p>En Banco XYZ, estamos dedicados a ofrecerte las mejores soluciones financieras. Con años de experiencia y un equipo profesional, estamos aquí para ayudarte a alcanzar tus metas financieras.</p>
+        </section>
+
+        <section id="contact">
+            <h2>Contacto</h2>
+            <p>¿Tienes preguntas? ¡Contáctanos!</p>
+            <p>Email: contacto@bancoxyz.com</p>
+            <p>Teléfono: +123 456 7890</p>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Banco XYZ. Todos los derechos reservados.</p>
+    </footer>
 </body>
 </html>
