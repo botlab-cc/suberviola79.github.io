@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voice2Voice - Conectando Personas</title>
+    <title>Voice2Voice - Servicios de Telecomunicaciones</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -40,16 +40,6 @@
             justify-content: center;
             color: white;
             text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-        }
-
-        .hero p {
-            font-size: 1.2em;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
 
         .container {
@@ -200,8 +190,7 @@
     </header>
 
     <section class="hero">
-        <h1>Conectando Personas</h1>
-        <p>Tu conexión confiable en el mundo de las telecomunicaciones.</p>
+        <!-- Sección de héroe eliminada -->
     </section>
 
     <div class="container">
@@ -245,7 +234,7 @@
 
     <div id="myModal" class="modal">
         <div class="modal-content">
-            <button class="toggle-modal" id="toggleButton">Abrir</button>
+            <button class="toggle-modal" id="toggleButton">Te Llamamos</button>
             <h2>Te llamamos</h2>
             <form id="callbackForm">
                 <div class="form-group">
@@ -275,8 +264,8 @@
             e.preventDefault();
             // Aquí puedes agregar el código para manejar el envío del formulario
             alert("¡Solicitud de llamada enviada!");
-            modal.style.transform = "translateY(100%)"; // Minimiza el modal después de enviar
-            callbackForm.reset(); // Reinicia el formulario
+            // Aquí podrías reiniciar el formulario si lo deseas
+            callbackForm.reset();
         };
     </script>
 
@@ -286,27 +275,12 @@
         agent-id="cd50098d-eab6-48a8-8055-6935cab79f73"
         language-code="es"
         max-query-length="-1">
-        <df-messenger-chat-bubble chat-title="voice2voice-chat">
+        <df-messenger-chat-bubble chat-title="telco-acc-genai-cx-global">
         </df-messenger-chat-bubble>
     </df-messenger>
 
-    <!-- Estilos personalizados para el widget -->
-    <style>
-        df-messenger {
-            z-index: 999;
-            position: fixed;
-            --df-messenger-font-color: #000;
-            --df-messenger-font-family: Google Sans;
-            --df-messenger-chat-background: #f3f6fc;
-            --df-messenger-message-user-background: #d3e3fd;
-            --df-messenger-message-bot-background: #fff;
-            bottom: 20px; /* Ajustar la posición superior */
-            right: 20px; /* Ajustar la posición derecha */
-        }
-    </style>
-
-    <!-- Script del widget de Dialogflow Messenger -->
     <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
-</body>
 
+</body>
 </html>
+
