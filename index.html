@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Banco XYZ - Tu Futuro Financiero</title>
+    <title>Banco Voice2Voice - Tu Futuro Financiero</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -13,20 +14,24 @@
             background-color: #f4f4f4;
             color: #333;
         }
+
         header {
             background: #004d99;
             color: white;
             padding: 20px;
             text-align: center;
         }
+
         nav {
             margin: 20px 0;
         }
+
         nav a {
             color: white;
             text-decoration: none;
             margin: 0 15px;
         }
+
         .hero {
             background: url('https://images.unsplash.com/photo-1519223299732-8f3b1d3f0800') no-repeat center center/cover;
             height: 400px;
@@ -36,22 +41,27 @@
             color: white;
             text-align: center;
         }
+
         .hero h1 {
             font-size: 2.5em;
         }
+
         .hero p {
             font-size: 1.2em;
         }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
+
         .services {
             display: flex;
             justify-content: space-around;
             margin: 40px 0;
         }
+
         .service {
             background: white;
             border-radius: 8px;
@@ -60,11 +70,13 @@
             width: 30%;
             text-align: center;
         }
+
         .service img {
             max-width: 100%;
             height: auto;
             border-radius: 8px;
         }
+
         footer {
             text-align: center;
             padding: 20px;
@@ -74,32 +86,180 @@
             bottom: 0;
             width: 100%;
         }
+
         /* Estilos para el modal */
         .modal {
-            display: none; /* Ocultar por defecto */
-            position: fixed; 
-            z-index: 1; 
+            display: block; /* Mostrar por defecto */
+            position: fixed;
+            z-index: 1;
             left: 0;
             top: 0;
-            width: 100%; 
-            height: 100%; 
-            overflow: auto; 
-            background-color: rgb(0,0,0); 
-            background-color: rgba(0,0,0,0.4); 
-            padding-top: 60px; 
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
         }
+
         .modal-content {
             background-color: #fefefe;
-            margin: 5% auto; 
+            margin: 5% auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 80%; 
-            max-width: 400px; 
+            width: 80%;
+            max-width: 400px;
             border-radius: 8px;
         }
+
         .close {
             color: #aaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
+        }
 
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .submit-button {
+            background-color: #004d99;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background-color: #003366;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Banco XYZ</h1>
+        <nav>
+            <a href="#services">Servicios</a>
+            <a href="#about">Sobre Nosotros</a>
+            <a href="#contact">Contacto</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Tu Futuro Financiero Comienza Aquí</h1>
+        <p>Descubre soluciones bancarias diseñadas para ti.</p>
+    </section>
+
+    <div class="container">
+        <section id="services">
+            <h2>Nuestros Servicios</h2>
+            <div class="services">
+                <div class="service">
+                    <img src="https://images.pexels.com/photos/4461136/pexels-photo-4461136.jpeg" alt="Cuentas Bancarias">
+                    <h3>Cuentas Bancarias</h3>
+                    <p>Administración fácil y rápida de tu dinero.</p>
+                </div>
+                <div class="service">
+                    <img src="https://images.pexels.com/photos/573509/pexels-photo-573509.jpeg" alt="Préstamos">
+                    <h3>Préstamos Personales</h3>
+                    <p>Financia tus sueños con tasas competitivas.</p>
+                </div>
+                <div class="service">
+                    <img src="https://images.pexels.com/photos/586294/pexels-photo-586294.jpeg" alt="Inversiones">
+                    <h3>Inversiones</h3>
+                    <p>Haz crecer tu dinero con nuestras opciones de inversión.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <h2>Sobre Nosotros</h2>
+            <p>En Banco XYZ, estamos dedicados a ofrecerte las mejores soluciones financieras. Con años de experiencia y un equipo profesional, estamos aquí para ayudarte a alcanzar tus metas financieras.</p>
+            <h3>Misión</h3>
+            <p>Nuestra misión es brindar servicios financieros de alta calidad, adaptados a las necesidades de nuestros clientes, y contribuir al crecimiento económico de la comunidad.</p>
+            <h3>Visión</h3>
+            <p>Ser el banco de confianza para nuestros clientes, conocido por su innovación y excelencia en el servicio.</p>
+        </section>
+
+        <section id="contact">
+            <h2>Contacto</h2>
+            <p>¿Tienes preguntas? ¡Contáctanos!</p>
+            <p>Email: contacto@bancoxyz.com</p>
+            <p>Teléfono: +123 456 7890</p>
+        </section>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Solicitar un Callback</h2>
+            <form id="callbackForm">
+                <div class="form-group">
+                    <label for="name">Nombre:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Número de Teléfono:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <button type="submit" class="submit-button">Enviar</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Banco XYZ. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Obtener el modal
+        var modal = document.getElementById("myModal");
+
+        // Obtener el elemento <span> que cierra el modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // Cuando el usuario hace clic en <span> (x), cerrar el modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // Cuando el usuario hace clic fuera del modal, cerrarlo
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Manejar el envío del formulario
+        document.getElementById('callbackForm').onsubmit = function (e) {
+            e.preventDefault(); // Evitar el envío por defecto
+            alert('Gracias por tu solicitud. Te contactaremos pronto.'); // Mostrar mensaje de agradecimiento
+            modal.style.display = "none"; // Cerrar el modal
+            document.getElementById('callbackForm').reset(); // Reiniciar el formulario
+        }
+    </script>
+</body>
+
+</html>
