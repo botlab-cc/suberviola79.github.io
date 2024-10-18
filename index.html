@@ -91,17 +91,16 @@
 
         /* Estilos para el modal */
         .modal {
-            display: block; /* Mostrar por defecto */
             position: fixed;
             z-index: 1;
             right: 20px; /* Posición a la derecha */
-            top: 20px; /* Posición superior */
+            bottom: 20px; /* Posición superior */
             width: 300px; /* Ancho del modal */
-            height: auto; /* Alto automático */
             background-color: rgb(0, 0, 0);
             background-color: rgba(0, 0, 0, 0.7);
-            padding: 20px;
             border-radius: 8px;
+            transition: all 0.3s ease; /* Transición para abrir/cerrar */
+            transform: translateY(100%); /* Minimizado por defecto */
         }
 
         .modal-content {
@@ -153,6 +152,37 @@
         }
 
         .submit-button:hover {
+            background-color: #004494;
+        }
+
+        /* Estilos para el widget de Dialogflow */
+        df-messenger {
+            z-index: 999;
+            position: fixed;
+            --df-messenger-font-color: #000;
+            --df-messenger-font-family: Google Sans;
+            --df-messenger-chat-background: #f3f6fc;
+            --df-messenger-message-user-background: #d3e3fd;
+            --df-messenger-message-bot-background: #fff;
+            bottom: 16px;
+            right: 16px;
+        }
+
+        /* Estilo del botón para abrir/cerrar el modal */
+        .toggle-modal {
+            position: absolute;
+            top: -30px;
+            left: 10px;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-modal:hover {
             background-color: #004494;
         }
     </style>
@@ -214,7 +244,7 @@
 
     <div id="myModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <button class="toggle-modal" id="toggleButton">Abrir</button>
             <h2>Solicitar un Callback</h2>
             <form id="callbackForm">
                 <div class="form-group">
@@ -234,28 +264,47 @@
         <p>&copy; 2024 Banco Voice2Voice. Todos los derechos reservados.</p>
     </footer>
 
+    <!-- Script del widget de Dialogflow Messenger -->
+    <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
+
+    <!-- Widget de Dialogflow Messenger -->
+    <df-messenger
+        project-id="lqairmh-agbg-iberia-song-ccai"
+        agent-id="cd50098d-eab6-48a8-8055-6935cab79f73"
+        language-code="es"
+        max-query-length="-1">
+        <df-messenger-chat-bubble chat-title="telco-acc-genai-cx-global"></df-messenger-chat-bubble>
+    </df-messenger>
+
     <script>
         // Obtener el modal
         var modal = document.getElementById("myModal");
+        var toggleButton = document.getElementById("toggleButton");
 
-        // Obtener el elemento <span> que cierra el modal
-        var span = document.getElementsByClassName("close")[0];
+        // Al cargar la página, mostrar el modal minimizado
+        modal.style.transform = "translateY(0)"; // Cambiar la posición al abrir
 
-        // Cuando el usuario hace clic en <span> (x), cerrar el modal
-        span.onclick = function () {
-            modal.style.display = "none";
-        }
-
-        // Cuando el usuario hace clic fuera del modal, cerrarlo
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
+        // Al hacer clic en el botón de abrir/cerrar
+        toggleButton.onclick = function () {
+            if (modal.style.transform === "translateY(0%)") {
+                modal.style.transform = "translateY(100%)"; // Minimizar
+                toggleButton.innerText = "Abrir"; // Cambiar texto del botón
+            } else {
+                modal.style.transform = "translateY(0%)"; // Abrir
+                toggleButton.innerText = "Cerrar"; // Cambiar texto del botón
             }
-        }
+        };
 
         // Manejar el envío del formulario
         document.getElementById('callbackForm').onsubmit = function (e) {
             e.preventDefault(); // Evitar el envío por defecto
             alert('Gracias por tu solicitud. Te contactaremos pronto.'); // Mostrar mensaje de agradecimiento
-            modal.style.display = "none"; // Cerrar el modal
+            modal.style.transform = "translateY(100%)"; // Minimizar el modal
+            toggleButton.innerText = "Abrir"; // Cambiar texto del botón
+        };
+    </script>
+</body>
+
+</html>
+
 
