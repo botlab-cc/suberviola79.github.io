@@ -11,12 +11,12 @@
             font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #e9f5ff;
             color: #333;
         }
 
         header {
-            background: #004d99;
+            background: #0056b3;
             color: white;
             padding: 20px;
             text-align: center;
@@ -44,10 +44,12 @@
 
         .hero h1 {
             font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
 
         .hero p {
             font-size: 1.2em;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
 
         .container {
@@ -65,7 +67,7 @@
         .service {
             background: white;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             padding: 20px;
             width: 30%;
             text-align: center;
@@ -80,7 +82,7 @@
         footer {
             text-align: center;
             padding: 20px;
-            background: #004d99;
+            background: #0056b3;
             color: white;
             position: relative;
             bottom: 0;
@@ -92,23 +94,21 @@
             display: block; /* Mostrar por defecto */
             position: fixed;
             z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
+            right: 20px; /* Posición a la derecha */
+            top: 20px; /* Posición superior */
+            width: 300px; /* Ancho del modal */
+            height: auto; /* Alto automático */
             background-color: rgb(0, 0, 0);
-            background-color: rgba(0, 0, 0, 0.4);
-            padding-top: 60px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 8px;
         }
 
         .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
+            background-color: #ffffff;
+            margin: 0;
             padding: 20px;
             border: 1px solid #888;
-            width: 80%;
-            max-width: 400px;
             border-radius: 8px;
         }
 
@@ -143,23 +143,24 @@
         }
 
         .submit-button {
-            background-color: #004d99;
+            background-color: #0056b3;
             color: white;
             padding: 10px 15px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
 
         .submit-button:hover {
-            background-color: #003366;
+            background-color: #004494;
         }
     </style>
 </head>
 
 <body>
     <header>
-        <h1>Banco XYZ</h1>
+        <h1>Banco Voice2Voice</h1>
         <nav>
             <a href="#services">Servicios</a>
             <a href="#about">Sobre Nosotros</a>
@@ -196,7 +197,7 @@
 
         <section id="about">
             <h2>Sobre Nosotros</h2>
-            <p>En Banco XYZ, estamos dedicados a ofrecerte las mejores soluciones financieras. Con años de experiencia y un equipo profesional, estamos aquí para ayudarte a alcanzar tus metas financieras.</p>
+            <p>En Banco Voice2Voice, estamos dedicados a ofrecerte las mejores soluciones financieras. Con años de experiencia y un equipo profesional, estamos aquí para ayudarte a alcanzar tus metas financieras.</p>
             <h3>Misión</h3>
             <p>Nuestra misión es brindar servicios financieros de alta calidad, adaptados a las necesidades de nuestros clientes, y contribuir al crecimiento económico de la comunidad.</p>
             <h3>Visión</h3>
@@ -206,7 +207,7 @@
         <section id="contact">
             <h2>Contacto</h2>
             <p>¿Tienes preguntas? ¡Contáctanos!</p>
-            <p>Email: contacto@bancoxyz.com</p>
+            <p>Email: contacto@bancovoice2voice.com</p>
             <p>Teléfono: +123 456 7890</p>
         </section>
     </div>
@@ -230,7 +231,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2024 Banco XYZ. Todos los derechos reservados.</p>
+        <p>&copy; 2024 Banco Voice2Voice. Todos los derechos reservados.</p>
     </footer>
 
     <script>
@@ -257,9 +258,4 @@
             e.preventDefault(); // Evitar el envío por defecto
             alert('Gracias por tu solicitud. Te contactaremos pronto.'); // Mostrar mensaje de agradecimiento
             modal.style.display = "none"; // Cerrar el modal
-            document.getElementById('callbackForm').reset(); // Reiniciar el formulario
-        }
-    </script>
-</body>
 
-</html>
