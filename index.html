@@ -51,7 +51,7 @@
         .services {
             display: flex;
             justify-content: space-around;
-            margin: 40px 0;
+            margin: 20px 0; /* Reducido el margen superior */
         }
 
         .service {
@@ -189,10 +189,6 @@
         </nav>
     </header>
 
-    <section class="hero">
-        <!-- Sección de héroe eliminada -->
-    </section>
-
     <div class="container">
         <section id="services">
             <h2>Nuestros Servicios</h2>
@@ -262,9 +258,8 @@
         const callbackForm = document.getElementById("callbackForm");
         callbackForm.onsubmit = function(e) {
             e.preventDefault();
-            // Aquí puedes agregar el código para manejar el envío del formulario
+            // Aquí puedes agregar el código para manejar el envío del formulario, como enviar los datos a un servidor
             alert("¡Solicitud de llamada enviada!");
-            // Aquí podrías reiniciar el formulario si lo deseas
             callbackForm.reset();
         };
     </script>
@@ -280,7 +275,6 @@
     </df-messenger>
 
     <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
-
 </body>
-</html>
 
+</html>
