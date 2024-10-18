@@ -65,7 +65,8 @@
 
         .service img {
             max-width: 100%;
-            height: auto;
+            height: 200px; /* Altura fija para todas las imágenes */
+            object-fit: cover; /* Mantiene la proporción de la imagen */
             border-radius: 8px;
         }
 
@@ -194,7 +195,7 @@
             <h2>Nuestros Servicios</h2>
             <div class="services">
                 <div class="service">
-                    <img src="https://images.pexels.com/photos/2685280/pexels-photo-2685280.jpeg" alt="Planes de Telefonía"> <!-- Imagen actualizada -->
+                    <img src="https://images.pexels.com/photos/2685280/pexels-photo-2685280.jpeg" alt="Planes de Telefonía">
                     <h3>Planes de Telefonía</h3>
                     <p>Ofrecemos una variedad de planes que se adaptan a tus necesidades.</p>
                 </div>
@@ -204,7 +205,7 @@
                     <p>Disfruta de una conexión a Internet veloz y estable.</p>
                 </div>
                 <div class="service">
-                    <img src="https://images.pexels.com/photos/4592257/pexels-photo-4592257.jpeg" alt="Soporte 24/7">
+                    <img src="https://images.pexels.com/photos/4664711/pexels-photo-4664711.jpeg" alt="Soporte 24/7"> <!-- Imagen actualizada -->
                     <h3>Soporte 24/7</h3>
                     <p>Estamos aquí para ayudarte en cualquier momento del día.</p>
                 </div>
@@ -250,15 +251,15 @@
     <script>
         const modal = document.getElementById("myModal");
         const toggleButton = document.getElementById("toggleButton");
-        
-        toggleButton.onclick = function() {
+
+        toggleButton.onclick = function () {
             modal.style.transform = modal.style.transform === "translateY(0%)" ? "translateY(100%)" : "translateY(0%)";
         };
-        
+
         const callbackForm = document.getElementById("callbackForm");
-        callbackForm.onsubmit = function(event) {
-            event.preventDefault(); // Evitar el envío por defecto
-            alert("¡Solicitud de llamada enviada!");
+        callbackForm.onsubmit = function (e) {
+            e.preventDefault();
+            alert("¡Gracias! Te contactaremos pronto.");
             callbackForm.reset();
             modal.style.transform = "translateY(100%)"; // Minimizar el modal después del envío
         };
