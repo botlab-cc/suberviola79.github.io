@@ -74,60 +74,32 @@
             bottom: 0;
             width: 100%;
         }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Banco XYZ</h1>
-        <nav>
-            <a href="#services">Servicios</a>
-            <a href="#about">Sobre Nosotros</a>
-            <a href="#contact">Contacto</a>
-        </nav>
-    </header>
+        /* Estilos para el modal */
+        .modal {
+            display: none; /* Ocultar por defecto */
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.4); 
+            padding-top: 60px; 
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; 
+            max-width: 400px; 
+            border-radius: 8px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
 
-    <section class="hero">
-        <h1>Tu Futuro Financiero Comienza Aquí</h1>
-        <p>Descubre soluciones bancarias diseñadas para ti.</p>
-    </section>
-
-    <div class="container">
-        <section id="services">
-            <h2>Nuestros Servicios</h2>
-            <div class="services">
-                <div class="service">
-                    <img src="https://images.pexels.com/photos/4461136/pexels-photo-4461136.jpeg" alt="Cuentas Bancarias">
-                    <h3>Cuentas Bancarias</h3>
-                    <p>Administración fácil y rápida de tu dinero.</p>
-                </div>
-                <div class="service">
-                    <img src="https://images.pexels.com/photos/573509/pexels-photo-573509.jpeg" alt="Préstamos">
-                    <h3>Préstamos Personales</h3>
-                    <p>Financia tus sueños con tasas competitivas.</p>
-                </div>
-                <div class="service">
-                    <img src="https://images.pexels.com/photos/586294/pexels-photo-586294.jpeg" alt="Inversiones">
-                    <h3>Inversiones</h3>
-                    <p>Haz crecer tu dinero con nuestras opciones de inversión.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="about">
-            <h2>Sobre Nosotros</h2>
-            <p>En Banco XYZ, estamos dedicados a ofrecerte las mejores soluciones financieras. Con años de experiencia y un equipo profesional, estamos aquí para ayudarte a alcanzar tus metas financieras.</p>
-        </section>
-
-        <section id="contact">
-            <h2>Contacto</h2>
-            <p>¿Tienes preguntas? ¡Contáctanos!</p>
-            <p>Email: contacto@bancoxyz.com</p>
-            <p>Teléfono: +123 456 7890</p>
-        </section>
-    </div>
-
-    <footer>
-        <p>&copy; 2024 Banco XYZ. Todos los derechos reservados.</p>
-    </footer>
-</body>
-</html>
