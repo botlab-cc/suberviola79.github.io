@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voice2Voice - Servicios de Telecomunicaciones</title>
+    <title>Voice2Voice - Servicios de Comunicaciones</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -125,7 +125,7 @@
         }
 
         .form-group input {
-            width: 100%;
+            width: 80%; /* Ancho reducido */
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -194,7 +194,7 @@
             <h2>Nuestros Servicios</h2>
             <div class="services">
                 <div class="service">
-                    <img src="https://images.pexels.com/photos/1909238/pexels-photo-1909238.jpeg" alt="Planes de Telefonía">
+                    <img src="https://images.pexels.com/photos/2685280/pexels-photo-2685280.jpeg" alt="Planes de Telefonía"> <!-- Imagen actualizada -->
                     <h3>Planes de Telefonía</h3>
                     <p>Ofrecemos una variedad de planes que se adaptan a tus necesidades.</p>
                 </div>
@@ -256,11 +256,11 @@
         };
         
         const callbackForm = document.getElementById("callbackForm");
-        callbackForm.onsubmit = function(e) {
-            e.preventDefault();
-            // Aquí puedes agregar el código para manejar el envío del formulario, como enviar los datos a un servidor
+        callbackForm.onsubmit = function(event) {
+            event.preventDefault(); // Evitar el envío por defecto
             alert("¡Solicitud de llamada enviada!");
             callbackForm.reset();
+            modal.style.transform = "translateY(100%)"; // Minimizar el modal después del envío
         };
     </script>
 
