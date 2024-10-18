@@ -1,160 +1,281 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Voice2Voice - Servicios de Telecomunicaciones</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #e9f5ff;
+            color: #333;
         }
+
         header {
-            background-color: #0073e6;
+            background: #0056b3;
             color: white;
             padding: 20px;
             text-align: center;
         }
-        h1 {
-            margin: 0;
+
+        nav {
+            margin: 20px 0;
         }
-        .container {
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        .hero {
+            background: url('https://images.unsplash.com/photo-1518756131217-2d6b3e45f52e') no-repeat center center/cover;
+            height: 400px;
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
         }
+
+        .services {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0; /* Reducido el margen superior */
+        }
+
         .service {
             background: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            flex: 1;
-            margin: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             padding: 20px;
+            width: 30%;
             text-align: center;
         }
+
         .service img {
             max-width: 100%;
-            height: auto;
-            border-radius: 5px;
+            height: 200px; /* Altura fija para todas las imágenes */
+            object-fit: cover; /* Mantiene la proporción de la imagen */
+            border-radius: 8px;
         }
-        .callback-modal {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: white;
-            border-radius: 10px;
+
+        footer {
+            text-align: center;
             padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            position: fixed;
-            bottom: 20px;
-            left: -200px; /* Start minimized */
-            transition: left 0.3s ease;
-            z-index: 999;
-        }
-        .callback-modal.active {
-            left: 20px; /* Show modal */
-        }
-        .callback-form {
-            display: flex;
-            flex-direction: column;
+            background: #0056b3;
+            color: white;
+            position: relative;
+            bottom: 0;
             width: 100%;
         }
-        .callback-form input {
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: calc(100% - 22px); /* Adjust for padding */
+
+        /* Estilos para el modal */
+        .modal {
+            position: fixed;
+            z-index: 1;
+            left: 20px; /* Posición a la izquierda */
+            bottom: 20px; /* Posición superior */
+            width: 300px; /* Ancho del modal */
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+            transition: all 0.3s ease; /* Transición para abrir/cerrar */
+            transform: translateY(100%); /* Minimizado por defecto */
         }
-        .toggle-modal {
-            background-color: #0073e6;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px;
+
+        .modal-content {
+            background-color: #ffffff;
+            margin: 0;
+            padding: 15px;
+            border: 1px solid #888;
+            border-radius: 8px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
             cursor: pointer;
         }
-        .toggle-modal:hover {
-            background-color: #005bb5;
+
+        .form-group {
+            margin-bottom: 15px;
         }
-        .chat-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 999;
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
         }
-        /* Estilos personalizados para el widget de Dialogflow */
+
+        .form-group input {
+            width: 80%; /* Ancho reducido */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .submit-button {
+            background-color: #0056b3;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        .submit-button:hover {
+            background-color: #004494;
+        }
+
+        /* Estilos para el widget de Dialogflow */
         df-messenger {
+            z-index: 999;
+            position: fixed;
             --df-messenger-font-color: #000;
             --df-messenger-font-family: Google Sans;
             --df-messenger-chat-background: #f3f6fc;
             --df-messenger-message-user-background: #d3e3fd;
             --df-messenger-message-bot-background: #fff;
+            bottom: 20px; /* Ajustar la posición superior */
+            right: 20px; /* Ajustar la posición derecha */
+        }
+
+        /* Estilo del botón para abrir/cerrar el modal */
+        .toggle-modal {
+            position: absolute;
+            top: -30px;
+            left: 10px;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-modal:hover {
+            background-color: #004494;
         }
     </style>
 </head>
+
 <body>
+    <header>
+        <h1>Voice2Voice - Servicios de Telecomunicaciones</h1>
+        <nav>
+            <a href="#services">Servicios</a>
+            <a href="#about">Sobre Nosotros</a>
+            <a href="#contact">Contacto</a>
+        </nav>
+    </header>
 
-<header>
-    <h1>Voice2Voice - Servicios de Telecomunicaciones</h1>
-</header>
+    <div class="container">
+        <section id="services">
+            <h2>Nuestros Servicios</h2>
+            <div class="services">
+                <div class="service">
+                    <img src="https://images.pexels.com/photos/2685280/pexels-photo-2685280.jpeg" alt="Planes de Telefonía">
+                    <h3>Planes de Telefonía</h3>
+                    <p>Ofrecemos una variedad de planes que se adaptan a tus necesidades.</p>
+                </div>
+                <div class="service">
+                    <img src="https://images.pexels.com/photos/3184406/pexels-photo-3184406.jpeg" alt="Internet Rápido">
+                    <h3>Internet Rápido</h3>
+                    <p>Disfruta de una conexión a Internet veloz y estable.</p>
+                </div>
+                <div class="service">
+                    <img src="https://images.pexels.com/photos/3184297/pexels-photo-3184297.jpeg" alt="Soporte 24/7"> <!-- Nueva imagen para soporte 24/7 -->
+                    <h3>Soporte 24/7</h3>
+                    <p>Estamos aquí para ayudarte en cualquier momento del día.</p>
+                </div>
+            </div>
+        </section>
 
-<div class="container">
-    <div class="service">
-        <h2>Conexiones Rápidas</h2>
-        <img src="https://images.pexels.com/photos/3184297/pexels-photo-3184297.jpeg" alt="Conexiones Rápidas">
-        <p>Ofrecemos servicios de conectividad de alta velocidad para mantenerte conectado en todo momento.</p>
+        <section id="about">
+            <h2>Sobre Nosotros</h2>
+            <p>En Voice2Voice, nuestra misión es ofrecerte las mejores soluciones de telecomunicaciones. Con un equipo experto y tecnología de vanguardia, estamos comprometidos a mantenerte conectado.</p>
+            <h3>Misión</h3>
+            <p>Proporcionar servicios de telecomunicaciones de alta calidad, adaptados a las necesidades de nuestros clientes.</p>
+            <h3>Visión</h3>
+            <p>Ser la compañía de telecomunicaciones más confiable, innovadora y centrada en el cliente.</p>
+        </section>
+
+        <section id="contact">
+            <h2>Contacto</h2>
+            <p>¿Tienes preguntas? ¡Contáctanos!</p>
+            <p>Email: contacto@voice2voice.com</p>
+            <p>Teléfono: +123 456 7890</p>
+        </section>
     </div>
-    <div class="service">
-        <h2>Soporte 24/7</h2>
-        <img src="https://images.pexels.com/photos/2021034/pexels-photo-2021034.jpeg" alt="Soporte 24/7">
-        <p>Nuestro equipo está disponible 24/7 para resolver tus dudas y problemas.</p>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <button class="toggle-modal" id="toggleButton">Te Llamamos</button>
+            <h2>Te llamamos</h2>
+            <form id="callbackForm">
+                <div class="form-group">
+                    <label for="name">Nombre:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Número de Teléfono:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <button type="submit" class="submit-button">Solicitar Llamada</button>
+            </form>
+        </div>
     </div>
-</div>
 
-<!-- Ventana emergente para Callback -->
-<div class="callback-modal" id="callbackModal">
-    <h2>Te Llamamos</h2>
-    <form class="callback-form" id="callbackForm">
-        <input type="text" id="name" placeholder="Tu nombre" required>
-        <input type="tel" id="phone" placeholder="Tu número de teléfono" required>
-        <button type="submit">Enviar</button>
-    </form>
-</div>
+    <!-- Script para controlar el modal -->
+    <script>
+        const modal = document.getElementById("myModal");
+        const toggleButton = document.getElementById("toggleButton");
 
-<!-- Botón para abrir/cerrar la ventana de callback -->
-<button class="toggle-modal" id="toggleButton">Te Llamamos</button>
+        toggleButton.onclick = function () {
+            modal.style.transform = modal.style.transform === "translateY(0%)" ? "translateY(100%)" : "translateY(0%)";
+        };
 
-<!-- Widget de Dialogflow Messenger -->
-<df-messenger
-    project-id="lqairmh-agbg-iberia-song-ccai"
-    agent-id="cd50098d-eab6-48a8-8055-6935cab79f73"
-    language-code="es"
-    max-query-length="-1">
-    <df-messenger-chat-bubble chat-title="telco-acc-genai-cx-global">
-    </df-messenger-chat-bubble>
-</df-messenger>
+        const callbackForm = document.getElementById("callbackForm");
+        callbackForm.onsubmit = function (e) {
+            e.preventDefault();
+            alert("¡Gracias! Te contactaremos pronto.");
+            callbackForm.reset();
+            modal.style.transform = "translateY(100%)"; // Minimizar el modal después del envío
+        };
+    </script>
 
-<script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
-<script>
-    const toggleButton = document.getElementById('toggleButton');
-    const modal = document.getElementById('callbackModal');
+    <!-- Widget de Dialogflow Messenger -->
+    <df-messenger
+        project-id="lqairmh-agbg-iberia-song-ccai"
+        agent-id="cd50098d-eab6-48a8-8055-6935cab79f73"
+        language-code="es"
+        max-query-length="-1">
+        <df-messenger-chat-bubble chat-title="telco-acc-genai-cx-global">
+        </df-messenger-chat-bubble>
+    </df-messenger>
 
-    toggleButton.onclick = function () {
-        modal.classList.toggle('active'); // Toggle modal visibility
-    };
-
-    const callbackForm = document.getElementById('callbackForm');
-    callbackForm.onsubmit = function (e) {
-        e.preventDefault();
-        alert("¡Gracias! Te contactaremos pronto.");
-        callbackForm.reset();
-        modal.classList.remove('active'); // Minimizar el modal después del envío
-    };
-</script>
-
+    <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
 </body>
+
 </html>
