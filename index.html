@@ -224,39 +224,29 @@
         <section id="about">
             <h2>Sobre Nosotros</h2>
             <p>En Voice4Voice, nuestra misión es ofrecerte las mejores soluciones de telecomunicaciones. Con un equipo experto y tecnología de vanguardia, estamos comprometidos a mantenerte conectado.</p>
-            <h3>Misión</h3>
-            <p>Proporcionar servicios de telecomunicaciones de alta calidad, adaptados a las necesidades de nuestros clientes.</p>
-            <h3>Visión</h3>
-            <p>Ser la compañía de telecomunicaciones más confiable, innovadora y centrada en el cliente.</p>
         </section>
 
-        <section id="contact" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-            <h2>Contacto</h2>
-            <p>¿Tienes preguntas? ¡Contáctanos!</p>
-            <p>Email: contacto@voice4voice.tel</p>
-            <p>Teléfono: +789 23456 7890</p>
+        <section id="contact">
+            <h2>Solicitar Llamada</h2>
+            <button id="toggleButton" class="toggle-modal">Abrir Formulario</button>
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="closeButton">&times;</span>
+                    <h2>Formulario de Llamada</h2>
+                    <form onsubmit="return handleCallback();">
+                        <div class="form-group">
+                            <label for="name">Nombre:</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Teléfono:</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                        <button type="submit" class="submit-button">Solicitar Llamada</button>
+                    </form>
+                </div>
+            </div>
         </section>
-
-        <div id="tokenDisplay"></div> <!-- Div para mostrar el token -->
-    </div>
-
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <button class="toggle-modal" id="toggleButton">Te Llamamos</button>
-            <span class="close" id="closeButton">&times;</span>
-            <h2>Solicitud de Llamada</h2>
-            <form onsubmit="return handleCallback();">
-                <div class="form-group">
-                    <label for="name">Nombre:</label>
-                    <input type="text" id="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Teléfono:</label>
-                    <input type="tel" id="phone" required>
-                </div>
-                <button type="submit" class="submit-button">Solicitar Llamada</button>
-            </form>
-        </div>
     </div>
 
     <footer>
@@ -286,7 +276,7 @@
             const authUrl = "https://login.mypurecloud.ie/oauth/authorize";
             const clientId = "de850a88-2b15-45b1-995d-38b94860dfaf";
             const redirectUri = "https://suberviola79.github.io/";
-            const scope = "all"; // Ajusta según sea necesario
+            const scope = "phone"; // Ajusta según sea necesario
 
             // Redirigir a la URL de autorización
             const url = `${authUrl}?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
@@ -331,7 +321,7 @@
             })
             .catch(error => {
                 console.error('Error al obtener el token:', error);
-                alert('Error al obtener el token');
+                alert('Error al obtener el token: ' + error.message);
             });
         }
 
