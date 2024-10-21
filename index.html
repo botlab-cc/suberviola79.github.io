@@ -51,7 +51,7 @@
         .services {
             display: flex;
             justify-content: space-around;
-            margin: 20px 0; /* Reducido el margen superior */
+            margin: 20px 0;
         }
 
         .service {
@@ -65,8 +65,8 @@
 
         .service img {
             max-width: 100%;
-            height: 200px; /* Altura fija para todas las imágenes */
-            object-fit: cover; /* Mantiene la proporción de la imagen */
+            height: 200px;
+            object-fit: cover;
             border-radius: 8px;
         }
 
@@ -84,14 +84,14 @@
         .modal {
             position: fixed;
             z-index: 1;
-            left: 20px; /* Posición a la izquierda */
-            bottom: 20px; /* Posición superior */
-            width: 300px; /* Ancho del modal */
+            left: 20px;
+            bottom: 20px;
+            width: 300px;
             background-color: rgb(0, 0, 0);
             background-color: rgba(0, 0, 0, 0.8);
             border-radius: 8px;
-            transition: all 0.3s ease; /* Transición para abrir/cerrar */
-            transform: translateY(100%); /* Minimizado por defecto */
+            transition: all 0.3s ease;
+            transform: translateY(100%);
         }
 
         .modal-content {
@@ -126,7 +126,7 @@
         }
 
         .form-group input {
-            width: 80%; /* Ancho reducido */
+            width: 80%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -156,8 +156,8 @@
             --df-messenger-chat-background: #f3f6fc;
             --df-messenger-message-user-background: #d3e3fd;
             --df-messenger-message-bot-background: #fff;
-            bottom: 20px; /* Ajustar la posición superior */
-            right: 20px; /* Ajustar la posición derecha */
+            bottom: 20px;
+            right: 20px;
         }
 
         /* Estilo del botón para abrir/cerrar el modal */
@@ -205,7 +205,7 @@
                     <p>Disfruta de una conexión a Internet veloz y estable.</p>
                 </div>
                 <div class="service">
-                    <img src="https://images.pexels.com/photos/3184297/pexels-photo-3184297.jpeg" alt="Soporte 24/7"> <!-- Nueva imagen para soporte 24/7 -->
+                    <img src="https://images.pexels.com/photos/3184297/pexels-photo-3184297.jpeg" alt="Soporte 24/7">
                     <h3>Soporte 24/7</h3>
                     <p>Estamos aquí para ayudarte en cualquier momento del día.</p>
                 </div>
@@ -254,6 +254,14 @@
     </footer>
 
     <script>
+        // Credenciales hardcodeadas
+        const VALID_USERNAME = "raul.suberviola@accenture.com"; // Cambia esto a tu usuario
+        const VALID_PASSWORD = "Romanel#9966"; // Cambia esto a tu contraseña
+
+        // Credenciales OAuth
+        const CLIENT_ID = 'de850a88-2b15-45b1-995d-38b94860dfaf';
+        const CLIENT_SECRET = 'enP1d2tQLXPaqZKXHpNZvGVX5eUjkZgsqF0slaJV84M';
+
         // Mostrar el modal
         document.getElementById('toggleButton').onclick = function () {
             document.getElementById('myModal').style.transform = 'translateY(0)';
@@ -265,41 +273,48 @@
         };
 
         // Manejo de envío de formulario
-        document.getElementById('callbackForm').onsubmit = async function (e) {
+        document.getElementById('callbackForm').onsubmit = function (e) {
             e.preventDefault(); // Evita el envío por defecto
 
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            // Intercambiar el usuario y contraseña por un token de acceso
-            const tokenEndpoint = 'https://login.mypurecloud.ie/oauth/token';
-            const clientId = 'de850a88-2b15-45b1-995d-38b94860dfaf';
-            const clientSecret = 'enP1d2tQLXPaqZKXHpNZvGVX5eUjkZgsqF0slaJV84M';
+            // Validar credenciales hardcodeadas
+            if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+                // Intercambiar el usuario y contraseña por un token de acceso
+                const tokenEndpoint = 'https://login.mypurecloud.ie/oauth/token';
 
-            const response = await fetch(tokenEndpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Authorization': 'Basic ' + btoa(`${clientId}:${clientSecret}`)
-                },
-                body: new URLSearchParams({
-                    grant_type: 'password', // Tipo de grant
-                    username: username,
-                    password: password
+                fetch(tokenEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization': 'Basic ' + btoa(`${CLIENT_ID}:${CLIENT_SECRET}`)
+                    },
+                    body: new URLSearchParams({
+                        grant_type: 'password', // Tipo de grant
+                        username: username,
+                        password: password
+                    })
                 })
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                const accessToken = data.access_token;
-                console.log('Access Token:', accessToken);
-                // Aquí puedes guardar el token o utilizarlo para hacer llamadas a la API
-                alert('Inicio de sesión exitoso.');
-                document.getElementById('myModal').style.transform = 'translateY(100%)'; // Cerrar el modal
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error en la autenticación');
+                    }
+                })
+                .then(data => {
+                    const accessToken = data.access_token;
+                    console.log('Access Token:', accessToken);
+                    alert('Inicio de sesión exitoso.');
+                    document.getElementById('myModal').style.transform = 'translateY(100%)'; // Cerrar el modal
+                })
+                .catch(error => {
+                    console.error('Error al obtener el token:', error);
+                    alert('Error al iniciar sesión. ' + error.message);
+                });
             } else {
-                const errorData = await response.json();
-                console.error('Error al obtener el token:', errorData);
-                alert('Error al iniciar sesión. ' + errorData.error_description);
+                alert('Usuario o contraseña incorrectos.');
             }
         };
     </script>
