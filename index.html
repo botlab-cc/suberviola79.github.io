@@ -326,12 +326,12 @@
                 return response.json();
             })
             .then(data => {
-                // Muestra el token en pantalla
-                document.getElementById("tokenDisplay").innerText = `Token de acceso: ${data.access_token}`;
+                // Muestra el token en un alert
+                alert(`Token de acceso: ${data.access_token}`);
             })
             .catch(error => {
                 console.error('Error al obtener el token:', error);
-                document.getElementById("tokenDisplay").innerText = 'Error al obtener el token';
+                alert('Error al obtener el token');
             });
         }
 
