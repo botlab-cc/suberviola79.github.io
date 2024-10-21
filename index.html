@@ -7,6 +7,7 @@
     <title>Voice4Voice - Servicios de Telecomunicaciones</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* Estilos CSS aquí */
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
@@ -205,7 +206,7 @@
                     <p>Disfruta de una conexión a Internet veloz y estable.</p>
                 </div>
                 <div class="service">
-                    <img src="https://images.pexels.com/photos/3184297/pexels-photo-3184297.jpeg" alt="Soporte 24/7"> <!-- Nueva imagen para soporte 24/7 -->
+                    <img src="https://images.pexels.com/photos/3184297/pexels-photo-3184297.jpeg" alt="Soporte 24/7">
                     <h3>Soporte 24/7</h3>
                     <p>Estamos aquí para ayudarte en cualquier momento del día.</p>
                 </div>
@@ -227,14 +228,13 @@
             <p>Email: contacto@voice4voice.tel</p>
             <p>Teléfono: +789 23456 7890</p>
         </section>
-
     </div>
 
     <div id="myModal" class="modal">
         <div class="modal-content">
             <button class="toggle-modal" id="toggleButton">Te Llamamos</button>
             <h2>Te llamamos</h2>
-            <form id="callbackForm">
+            <form id="callbackForm" onsubmit="return handleCallback();">
                 <div class="form-group">
                     <label for="name">Nombre:</label>
                     <input type="text" id="name" name="name" required>
@@ -248,55 +248,33 @@
         </div>
     </div>
 
-    <!-- Script para controlar el modal -->
     <script>
         const modal = document.getElementById("myModal");
         const toggleButton = document.getElementById("toggleButton");
 
+        // Función para abrir y cerrar el modal
         toggleButton.onclick = function () {
             modal.style.transform = modal.style.transform === "translateY(0%)" ? "translateY(100%)" : "translateY(0%)";
-        };
+        }
 
-        const callbackForm = document.getElementById("callbackForm");
-        callbackForm.onsubmit = function (e) {
-            e.preventDefault();
-            alert("¡Gracias! Te contactaremos pronto.");
-            callbackForm.reset();
-            modal.style.transform = "translateY(100%)"; // Minimizar el modal después del envío
-        };
+        function handleCallback() {
+            // Datos del formulario
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+
+            // URL de autorización
+            const authUrl = "https://login.mypurecloud.ie/oauth/authorize";
+            const clientId = "de850a88-2b15-45b1-995d-38b94860dfaf";
+            const redirectUri = "https://suberviola79.github.io/";
+            const scope = "all"; // Ajusta según sea necesario
+
+            // Redirigir a la URL de autorización
+            const url = `${authUrl}?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
+            window.location.href = url;
+
+            return false; // Evitar que el formulario se envíe
+        }
     </script>
-
-    <!-- Integración de Genesys Cloud -->
-    <script src="https://cdn.jsdelivr.net/npm/@genesys/cloud-client-sdk@latest/dist/genesys-cloud-client-sdk.min.js"></script>
-    <script>
-        const clientId = 'TU_CLIENT_ID'; // Reemplaza con tu Client ID
-        const redirectUri = 'TU_REDIRECT_URI'; // Reemplaza con tu Redirect URI
-        const scope = 'YOUR_SCOPE'; // Reemplaza con el alcance necesario
-
-        const login = async () => {
-            const authUrl = `https://login.mypurecloud.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token&scope=${scope}`;
-            window.location.href = authUrl;
-        };
-
-        const logout = () => {
-            // Lógica de cierre de sesión
-            console.log("Cerrando sesión");
-        };
-
-        // Aquí podrías agregar eventos para manejar el inicio/cierre de sesión
-    </script>
-
-    <!-- Widget de Dialogflow Messenger -->
-    <df-messenger
-        project-id="lqairmh-agbg-iberia-song-ccai"
-        agent-id="cd50098d-eab6-48a8-8055-6935cab79f73"
-        language-code="es"
-        max-query-length="-1">
-        <df-messenger-chat-bubble chat-title="telco-acc-genai-cx-global">
-        </df-messenger-chat-bubble>
-    </df-messenger>
-
-    <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
 </body>
 
 </html>
