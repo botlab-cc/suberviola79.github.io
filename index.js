@@ -1,63 +1,57 @@
-const apiUrl = "https://cors-anywhere.herokuapp.com/https://api.mygateway.com/v2/contacts"; // Proxy CORS
+const clientId = "de850a88-2b15-45b1-995d-38b94860dfaf"; // Client ID de Genesys
+const redirectUri = "https://suberviola79.github.io/"; // Tu URL de GitHub Pages
+const authUrl = `https://login.mypurecloud.ie/oauth/authorize?client_id=${clientId}&response_type=token&redirect_uri=${redirectUri}&state=12345`;
 
-// Función para obtener el token de acceso
-async function getAccessToken() {
-    const tokenUrl = "https://api.mygateway.com/oauth/token"; // URL de tu API para obtener el token
-    const clientId = "de850a88-2b15-45b1-995d-38b94860dfaf"; // Client ID
-    const clientSecret = "Bmy5Tgwa0V44L1uulM_BgqznH1k4Mk6LLqQd31vQq7Q"; // Client Secret
+// Función para redirigir al usuario al login de Genesys y obtener el token de acceso
+function authorizeUser() {
+    window.location.href = authUrl;
+}
 
-    try {
-        const response = await fetch(tokenUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: new URLSearchParams({
-                grant_type: "client_credentials",
-                client_id: clientId,
-                client_secret: clientSecret
-            })
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            alert(`Error al obtener el token: ${errorText}`);
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        alert("Token de acceso obtenido: " + data.access_token); // Depuración del token
-        return data.access_token;
-    } catch (error) {
-        console.error("Error en getAccessToken:", error);
-        alert("Ocurrió un error al obtener el token.");
+// Función para extraer el token de la URL después de redirigir
+function getAccessTokenFromUrl() {
+    const hash = window.location.hash;
+    if (hash.includes("access_token")) {
+        const params = new URLSearchParams(hash.substring(1));
+        const accessToken = params.get("access_token");
+        alert("Token de acceso obtenido: " + accessToken); // Depuración del token
+        return accessToken;
+    } else {
+        alert("No se encontró ningún token en la URL.");
+        return null;
     }
 }
 
-// Función para crear un contacto
-async function createContact(name, phone, surname, email) {
+// Función para crear un contacto en la API de Genesys Cloud
+async function createContact(name, surname, phone, email) {
+    const accessToken = getAccessTokenFromUrl(); // Obtiene el token de la URL
+
+    if (!accessToken) {
+        alert("No se pudo obtener el token de acceso.");
+        return;
+    }
+
+    const apiUrl = "https://api.mypurecloud.ie/api/v2/outbound/contactlists/74832173-7c59-4e01-8844-b4ab999fe103/contacts"; // URL de tu lista de contactos en Genesys
+
+    const contactData = [
+        {
+            data: {
+                NOMBRE: name,
+                APELLIDO1: surname,
+                TELEFONO: phone,
+                MAIL: email
+            },
+            callable: true
+        }
+    ];
+
     try {
-        alert("Depuración v1.0.1");
-
-        const accessToken = await getAccessToken(); // Obtiene el token
-
-        // Imprimir datos que se van a enviar para depuración
-        const contactData = {
-            name: name,
-            phone: phone,
-            surname: surname,
-            email: email
-        };
-
-        alert("Datos del contacto a enviar: " + JSON.stringify(contactData));
-
         const response = await fetch(apiUrl, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${accessToken}`,
-                "Content-Type": "application/json",
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify(contactData) // Cuerpo del JSON
+            body: JSON.stringify(contactData)
         });
 
         if (!response.ok) {
@@ -74,7 +68,7 @@ async function createContact(name, phone, surname, email) {
     }
 }
 
-// Lógica para abrir y cerrar el modal
+// Lógica para abrir el modal
 document.getElementById("toggleButton").onclick = function() {
     document.getElementById("myModal").style.display = "block";
 };
@@ -97,5 +91,12 @@ document.getElementById("callbackForm").onsubmit = function(event) {
     const surname = document.getElementById("surname").value;
     const email = document.getElementById("email").value;
 
-    createContact(name, phone, surname, email); // Llama a la función para crear el contacto
+    createContact(name, surname, phone, email); // Llama a la función para crear el contacto
+};
+
+// Verificar si ya hay un token en la URL
+window.onload = function() {
+    if (!window.location.hash.includes("access_token")) {
+        authorizeUser(); // Redirige al usuario si no tiene un token
+    }
 };
