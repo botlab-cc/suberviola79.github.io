@@ -31,6 +31,9 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        alert(`Código de autorización: ${code}`);
+        console.log(`Código de autorización: ${code}`);
+
         // Obtener el token de acceso utilizando el código
         const token = await getAccessToken(code);
         if (!token) {
@@ -38,9 +41,15 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        alert(`Token de acceso: ${token}`);
+        console.log(`Token de acceso: ${token}`);
+
         // Crear contacto en Genesys Cloud
         try {
             const response = await createContact(token, name, surname, phone, email);
+            alert(`Respuesta de la creación del contacto: ${response.status}`);
+            console.log(`Respuesta de la creación del contacto: ${response.status}`);
+
             if (response.ok) {
                 alert("Contacto creado con éxito.");
             } else {
