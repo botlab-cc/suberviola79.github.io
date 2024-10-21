@@ -205,7 +205,7 @@
                     <p>Disfruta de una conexión a Internet veloz y estable.</p>
                 </div>
                 <div class="service">
-                    <img src="https://images.pexels.com/photos/3184297/pexels-photo-3184297.jpeg" alt="Soporte 24/7">
+                    <img src="https://images.pexels.com/photos/3184297/pexels-photo-3184297.jpeg" alt="Soporte 24/7"> <!-- Nueva imagen para soporte 24/7 -->
                     <h3>Soporte 24/7</h3>
                     <p>Estamos aquí para ayudarte en cualquier momento del día.</p>
                 </div>
@@ -227,6 +227,7 @@
             <p>Email: contacto@voice4voice.tel</p>
             <p>Teléfono: +789 23456 7890</p>
         </section>
+
     </div>
 
     <div id="myModal" class="modal">
@@ -235,92 +236,73 @@
             <h2>Te llamamos</h2>
             <form id="callbackForm">
                 <div class="form-group">
-                    <label for="name">Nombre:</label>
-                    <input type="text" id="name" name="name" required>
+                    <label for="username">Usuario:</label>
+                    <input type="text" id="username" name="username" required>
                 </div>
                 <div class="form-group">
-                    <label for="phone">Número de Teléfono:</label>
-                    <input type="tel" id="phone" name="phone" required>
+                    <label for="password">Contraseña:</label>
+                    <input type="password" id="password" name="password" required>
                 </div>
-                <button type="submit" class="submit-button">Solicitar Llamada</button>
+                <button type="submit" class="submit-button">Enviar</button>
             </form>
+            <span class="close" id="closeModal">&times;</span>
         </div>
     </div>
 
-    <!-- Script para controlar el modal y la API -->
-    <script>
-        const modal = document.getElementById("myModal");
-        const toggleButton = document.getElementById("toggleButton");
+    <footer>
+        <p>&copy; 2024 Voice4Voice. Todos los derechos reservados.</p>
+    </footer>
 
-        toggleButton.onclick = function () {
-            modal.style.transform = modal.style.transform === "translateY(0%)" ? "translateY(100%)" : "translateY(0%)";
+    <script>
+        // Mostrar el modal
+        document.getElementById('toggleButton').onclick = function () {
+            document.getElementById('myModal').style.transform = 'translateY(0)';
         };
 
-        const callbackForm = document.getElementById("callbackForm");
-        callbackForm.onsubmit = async function (e) {
-            e.preventDefault();
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
+        // Cerrar el modal
+        document.getElementById('closeModal').onclick = function () {
+            document.getElementById('myModal').style.transform = 'translateY(100%)';
+        };
 
-            try {
-                // Autenticación en Genesys Cloud
-                const authResponse = await fetch('https://login.mypurecloud.com/oauth/token', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Basic ' + btoa('de850a88-2b15-45b1-995d-38b94860dfaf:enP1d2tQLXPaqZKXHpNZvGVX5eUjkZgsqF0slaJV84M')
-                    },
-                    body: JSON.stringify({
-                        grant_type: 'client_credentials'
-                    })
-                });
+        // Manejo de envío de formulario
+        document.getElementById('callbackForm').onsubmit = async function (e) {
+            e.preventDefault(); // Evita el envío por defecto
 
-                if (!authResponse.ok) {
-                    throw new Error('Error en autenticación: ' + authResponse.statusText);
-                }
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
 
-                const authData = await authResponse.json();
-                const accessToken = authData.access_token;
+            // Intercambiar el usuario y contraseña por un token de acceso
+            const tokenEndpoint = 'https://login.mypurecloud.ie/oauth/token';
+            const clientId = 'de850a88-2b15-45b1-995d-38b94860dfaf';
+            const clientSecret = 'enP1d2tQLXPaqZKXHpNZvGVX5eUjkZgsqF0slaJV84M';
 
-                // Crear contacto en Genesys Cloud
-                const createContactResponse = await fetch('https://api.mypurecloud.com/api/v2/contacts', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': 'Bearer ' + accessToken,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name: name,
-                        phone: phone
-                    })
-                });
+            const response = await fetch(tokenEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': 'Basic ' + btoa(`${clientId}:${clientSecret}`)
+                },
+                body: new URLSearchParams({
+                    grant_type: 'password', // Tipo de grant
+                    username: username,
+                    password: password
+                })
+            });
 
-                if (!createContactResponse.ok) {
-                    throw new Error('Error al crear contacto: ' + createContactResponse.statusText);
-                }
-
-                alert("¡Gracias! Te contactaremos pronto.");
-                callbackForm.reset();
-                modal.style.transform = "translateY(100%)"; // Minimizar el modal después del envío
-
-            } catch (error) {
-                console.error(error);
-                alert("Ocurrió un error. Por favor, intenta de nuevo más tarde.");
+            if (response.ok) {
+                const data = await response.json();
+                const accessToken = data.access_token;
+                console.log('Access Token:', accessToken);
+                // Aquí puedes guardar el token o utilizarlo para hacer llamadas a la API
+                alert('Inicio de sesión exitoso.');
+                document.getElementById('myModal').style.transform = 'translateY(100%)'; // Cerrar el modal
+            } else {
+                const errorData = await response.json();
+                console.error('Error al obtener el token:', errorData);
+                alert('Error al iniciar sesión. ' + errorData.error_description);
             }
         };
     </script>
-
-    <!-- Widget de Dialogflow Messenger -->
-    <df-messenger
-        project-id="lqairmh-agbg-iberia-song-ccai"
-        agent-id="cd50098d-eab6-48a8-8055-6935cab79f73"
-        language-code="es"
-        max-query-length="-1">
-        <df-messenger-chat-bubble chat-title="telco-acc-genai-cx-global">
-        </df-messenger-chat-bubble>
-    </df-messenger>
-
-    <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
 </body>
 
 </html>
