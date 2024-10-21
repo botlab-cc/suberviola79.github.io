@@ -250,8 +250,8 @@
         const TOKEN_URL = "https://login.mypurecloud.ie/oauth/token";
 
         // Usuario y contraseña ficticios
-        const TEST_USERNAME = "raul.suberviola@accenture.com";
-        const TEST_PASSWORD = "Romanel#9966";
+        const TEST_USERNAME = "usuario@ejemplo.com";
+        const TEST_PASSWORD = "ContraseñaEjemplo123";
 
         const modal = document.getElementById("myModal");
         const toggleButton = document.getElementById("toggleButton");
@@ -259,11 +259,7 @@
         const callbackForm = document.getElementById("callbackForm");
 
         toggleButton.onclick = function () {
-            if (callbackForm.style.display === "none") {
-                callbackForm.style.display = "block";
-            } else {
-                callbackForm.style.display = "none";
-            }
+            modal.style.transform = modal.style.transform === "translateY(0%)" ? "translateY(100%)" : "translateY(0%)";
         };
 
         loginButton.onclick = async function () {
@@ -297,11 +293,25 @@
                 alert("Error al iniciar sesión: " + error.message);
             }
         };
+
+        callbackForm.onsubmit = function (e) {
+            e.preventDefault();
+            alert("¡Gracias! Te contactaremos pronto.");
+            callbackForm.reset();
+            modal.style.transform = "translateY(100%)"; // Minimizar el modal después del envío
+        };
     </script>
 
-    <footer>
-        <p>&copy; 2024 Voice4Voice. Todos los derechos reservados.</p>
-    </footer>
+    <df-messenger
+        project-id="lqairmh-agbg-iberia-song-ccai"
+        agent-id="cd50098d-eab6-48a8-8055-6935cab79f73"
+        language-code="es"
+        max-query-length="-1">
+        <df-messenger-chat-bubble chat-title="telco-acc-genai-cx-global">
+        </df-messenger-chat-bubble>
+    </df-messenger>
+
+    <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
 </body>
 
 </html>
