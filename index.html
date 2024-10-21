@@ -7,7 +7,6 @@
     <title>Voice4Voice - Servicios de Telecomunicaciones</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Estilos CSS aquí */
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
@@ -52,7 +51,7 @@
         .services {
             display: flex;
             justify-content: space-around;
-            margin: 20px 0; /* Reducido el margen superior */
+            margin: 20px 0;
         }
 
         .service {
@@ -66,8 +65,8 @@
 
         .service img {
             max-width: 100%;
-            height: 200px; /* Altura fija para todas las imágenes */
-            object-fit: cover; /* Mantiene la proporción de la imagen */
+            height: 200px;
+            object-fit: cover;
             border-radius: 8px;
         }
 
@@ -85,14 +84,14 @@
         .modal {
             position: fixed;
             z-index: 1;
-            left: 20px; /* Posición a la izquierda */
-            bottom: 20px; /* Posición superior */
-            width: 300px; /* Ancho del modal */
+            left: 20px;
+            bottom: 20px;
+            width: 300px;
             background-color: rgb(0, 0, 0);
             background-color: rgba(0, 0, 0, 0.8);
             border-radius: 8px;
-            transition: all 0.3s ease; /* Transición para abrir/cerrar */
-            transform: translateY(100%); /* Minimizado por defecto */
+            transition: all 0.3s ease;
+            transform: translateY(100%);
         }
 
         .modal-content {
@@ -127,7 +126,7 @@
         }
 
         .form-group input {
-            width: 80%; /* Ancho reducido */
+            width: 80%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -157,8 +156,8 @@
             --df-messenger-chat-background: #f3f6fc;
             --df-messenger-message-user-background: #d3e3fd;
             --df-messenger-message-bot-background: #fff;
-            bottom: 20px; /* Ajustar la posición superior */
-            right: 20px; /* Ajustar la posición derecha */
+            bottom: 20px;
+            right: 20px;
         }
 
         /* Estilo del botón para abrir/cerrar el modal */
@@ -177,14 +176,6 @@
 
         .toggle-modal:hover {
             background-color: #004494;
-        }
-
-        /* Estilo para mostrar el token */
-        #tokenDisplay {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
         }
     </style>
 </head>
@@ -224,111 +215,70 @@
         <section id="about">
             <h2>Sobre Nosotros</h2>
             <p>En Voice4Voice, nuestra misión es ofrecerte las mejores soluciones de telecomunicaciones. Con un equipo experto y tecnología de vanguardia, estamos comprometidos a mantenerte conectado.</p>
+            <h3>Misión</h3>
+            <p>Proporcionar servicios de telecomunicaciones de alta calidad, adaptados a las necesidades de nuestros clientes.</p>
+            <h3>Visión</h3>
+            <p>Ser la compañía de telecomunicaciones más confiable, innovadora y centrada en el cliente.</p>
         </section>
 
-        <section id="contact">
-            <h2>Solicitar Llamada</h2>
-            <button id="toggleButton" class="toggle-modal">Abrir Formulario</button>
-            <div id="myModal" class="modal">
-                <div class="modal-content">
-                    <span class="close" id="closeButton">&times;</span>
-                    <h2>Formulario de Llamada</h2>
-                    <form onsubmit="return handleCallback();">
-                        <div class="form-group">
-                            <label for="name">Nombre:</label>
-                            <input type="text" id="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Teléfono:</label>
-                            <input type="tel" id="phone" required>
-                        </div>
-                        <button type="submit" class="submit-button">Solicitar Llamada</button>
-                    </form>
-                </div>
-            </div>
+        <section id="contact" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <h2>Contacto</h2>
+            <p>¿Tienes preguntas? ¡Contáctanos!</p>
+            <p>Email: contacto@voice4voice.tel</p>
+            <p>Teléfono: +789 23456 7890</p>
         </section>
+
     </div>
 
-    <footer>
-        <p>© 2024 Voice4Voice - Todos los derechos reservados.</p>
-    </footer>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <button class="toggle-modal" id="toggleButton">Te Llamamos</button>
+            <h2>Te llamamos</h2>
+            <form id="callbackForm">
+                <div class="form-group">
+                    <label for="name">Nombre:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Número de Teléfono:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <button type="submit" class="submit-button">Solicitar Llamada</button>
+            </form>
+        </div>
+    </div>
 
+    <!-- Script para controlar el modal -->
     <script>
         const modal = document.getElementById("myModal");
         const toggleButton = document.getElementById("toggleButton");
-        const closeButton = document.getElementById("closeButton");
 
-        // Función para abrir y cerrar el modal
         toggleButton.onclick = function () {
             modal.style.transform = modal.style.transform === "translateY(0%)" ? "translateY(100%)" : "translateY(0%)";
-        }
+        };
 
-        closeButton.onclick = function () {
-            modal.style.transform = "translateY(100%)";
-        }
+        const callbackForm = document.getElementById("callbackForm");
+        callbackForm.onsubmit = async function (e) {
+            e.preventDefault();
 
-        // Maneja el callback de autorización
-        function handleCallback() {
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
+            // Obtener datos del formulario
+            const name = document.getElementById("name").value;
+            const phone = document.getElementById("phone").value;
 
-            // URL de autorización
-            const authUrl = "https://login.mypurecloud.ie/oauth/authorize";
-            const clientId = "de850a88-2b15-45b1-995d-38b94860dfaf";
-            const redirectUri = "https://suberviola79.github.io/";
-            const scope = "outbound"; // Ajusta según sea necesario
+            // Redirigir a la URL de autorización de Genesys Cloud
+            const clientId = "de850a88-2b15-45b1-995d-38b94860dfaf"; // Reemplaza con tu Client ID
+            const redirectUri = "https://suberviola79.github.io/"; // Reemplaza con tu Callback URL
+            const scope = "outbound:write contact:write"; // Scope para crear contactos
+            const authUrl = `https://login.mypurecloud.ie/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
 
-            // Redirigir a la URL de autorización
-            const url = `${authUrl}?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
-            window.location.href = url;
-
-            return false; // Evitar que el formulario se envíe
-        }
-
-        // Función para manejar la redirección después de la autenticación
-        function handleAuthResponse() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const code = urlParams.get('code'); // Obtiene el código de autorización
-
-            if (code) {
-                // Intercambiar el código por un token de acceso
-                exchangeCodeForToken(code);
-            }
-        }
-
-        // Función para intercambiar el código de autorización por un token de acceso
-        function exchangeCodeForToken(code) {
-            const tokenUrl = "https://login.mypurecloud.ie/oauth/token";
-            const clientId = "de850a88-2b15-45b1-995d-38b94860dfaf";
-            const clientSecret = "enP1d2tQLXPaqZKXHpNZvGVX5eUjkZgsqF0slaJV84M"; // ¡No expongas esto en producción!
-            const redirectUri = "https://suberviola79.github.io/";
-
-            // Realizar la solicitud para obtener el token
-            fetch(tokenUrl, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: `grant_type=authorization_code&code=${code}&redirect_uri=${encodeURIComponent(redirectUri)}&client_id=${clientId}&client_secret=${clientSecret}`
-            })
-            .then(response => {
-                if (!response.ok) throw new Error('Network response was not ok');
-                return response.json();
-            })
-            .then(data => {
-                // Muestra el token en un alert
-                alert(`Token de acceso: ${data.access_token}`);
-            })
-            .catch(error => {
-                console.error('Error al obtener el token:', error);
-                alert('Error al obtener el token: ' + error.message);
-            });
-        }
-
-        // Llama a la función para manejar la respuesta de autenticación al cargar la página
-        window.onload = handleAuthResponse;
-
+            // Abrir la URL de autorización en una nueva ventana
+            window.open(authUrl, "_blank");
+        };
     </script>
+
+    <footer>
+        <p>&copy; 2024 Voice4Voice. Todos los derechos reservados.</p>
+    </footer>
 </body>
 
 </html>
