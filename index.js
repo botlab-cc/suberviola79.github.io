@@ -1,90 +1,104 @@
-// Configuración de la aplicación
-const clientId = "de850a88-2b15-45b1-995d-38b94860dfaf"; // Client ID
-const clientSecret = "Bmy5Tgwa0V44L1uulM_BgqznH1k4Mk6LLqQd31vQq7Q"; // Client Secret
-const tokenUrl = "https://login.mypurecloud.ie/oauth/token"; // URL para obtener el token
-const contactListId = "74832173-7c59-4e01-8844-b4ab999fe103"; // ID de la lista de contactos
+// index.js
+
+// Variables globales
+const clientId = "de850a88-2b15-45b1-995d-38b94860dfaf"; // Reemplaza con tu Client ID
+const clientSecret = "Bmy5Tgwa0V44L1uulM_BgqznH1k4Mk6LLqQd31vQq7Q"; // Reemplaza con tu Client Secret
+const apiUrl = "https://api.mypurecloud.ie"; // URL base de Genesys Cloud
+const scope = "outbound"; // Scope para crear contactos
 
 // Función para obtener el token de acceso
 async function getAccessToken() {
+    const tokenUrl = `${apiUrl}/oauth/token`;
+    const headers = {
+        "Content-Type": "application/json",
+        "Authorization": `Basic ${btoa(`${clientId}:${clientSecret}`)}` // Codificamos el Client ID y Client Secret
+    };
+
+    const body = JSON.stringify({
+        grant_type: "client_credentials",
+        scope: scope
+    });
+
     try {
         const response = await fetch(tokenUrl, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: new URLSearchParams({
-                grant_type: "client_credentials", // Tipo de autorización
-                client_id: clientId,
-                client_secret: clientSecret
-            }),
+            headers: headers,
+            body: body
         });
-
+        
         if (!response.ok) {
-            const errorData = await response.json();
-            alert(`Error al obtener el token: ${errorData.error_description}`);
-            throw new Error("Error al obtener el token de acceso");
+            const error = await response.json();
+            alert(`Error al obtener el token: ${error.error_description}`);
+            throw new Error(error.error_description);
         }
 
         const data = await response.json();
-        alert(`Token de acceso obtenido: ${data.access_token}`); // Muestra el token obtenido
+        alert(`Token obtenido: ${data.access_token}`); // Alert para mostrar el token
         return data.access_token;
+
     } catch (error) {
-        console.error(error);
-        alert("Ocurrió un error al obtener el token de acceso.");
+        console.error("Error en getAccessToken:", error);
+        alert(`Error en getAccessToken: ${error.message}`);
     }
 }
 
-// Función para crear un contacto
-async function createContact(token, nombre, apellido1, telefono, mail) {
-    const apiUrl = `https://api.mypurecloud.ie/api/v2/outbound/contactlists/${contactListId}/contacts`;
-    const contactData = [{
+// Función para crear un contacto en la lista de contactos
+async function createContact(accessToken, name, lastName, phone, email) {
+    const contactListId = "74832173-7c59-4e01-8844-b4ab999fe103"; // Reemplaza con tu Contact List ID
+    const createContactUrl = `${apiUrl}/api/v2/outbound/contactlists/${contactListId}/contacts`;
+
+    const headers = {
+        "Authorization": `Bearer ${accessToken}`,
+        "Content-Type": "application/json"
+    };
+
+    const body = JSON.stringify([{
         data: {
-            NOMBRE: nombre,
-            APELLIDO1: apellido1,
-            TELEFONO: telefono,
-            MAIL: mail
+            NOMBRE: name,
+            APELLIDO1: lastName,
+            TELEFONO: phone,
+            MAIL: email
         },
         callable: true
-    }];
+    }]);
 
     try {
-        const response = await fetch(apiUrl, {
+        const response = await fetch(createContactUrl, {
             method: "POST",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(contactData),
+            headers: headers,
+            body: body
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
-            alert(`Error al crear el contacto: ${errorData.error_description}`);
-            throw new Error("Error al crear el contacto");
+            const error = await response.json();
+            alert(`Error al crear el contacto: ${error.message}`);
+            throw new Error(error.message);
         }
 
-        const data = await response.json();
-        alert("Contacto creado con éxito"); // Mensaje de éxito
+        alert("Contacto creado exitosamente.");
+        
     } catch (error) {
-        console.error(error);
-        alert("Ocurrió un error al crear el contacto.");
+        console.error("Error en createContact:", error);
+        alert(`Error en createContact: ${error.message}`);
     }
 }
 
-// Manejo del envío del formulario
+// Evento al enviar el formulario
 const callbackForm = document.getElementById("callbackForm");
 callbackForm.onsubmit = async function (e) {
     e.preventDefault();
 
     // Obtener datos del formulario
-    const nombre = document.getElementById("name").value;
-    const telefono = document.getElementById("phone").value;
-    const apellido1 = "Apellido1"; // Valor hardcodeado
-    const mail = "ejemplo@dominio.com"; // Valor hardcodeado
+    const name = document.getElementById("name").value;
+    const phone = document.getElementById("phone").value;
+    const lastName = "ApellidoEjemplo"; // Valor hardcodeado
+    const email = "ejemplo@correo.com"; // Valor hardcodeado
+
+    alert("Depuración v1.0.1"); // Alert para la depuración
 
     // Obtener el token de acceso y crear el contacto
-    const token = await getAccessToken();
-    if (token) {
-        await createContact(token, nombre, apellido1, telefono, mail);
+    const accessToken = await getAccessToken();
+    if (accessToken) {
+        await createContact(accessToken, name, lastName, phone, email);
     }
 };
