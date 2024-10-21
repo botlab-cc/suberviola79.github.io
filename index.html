@@ -178,6 +178,14 @@
         .toggle-modal:hover {
             background-color: #004494;
         }
+
+        /* Estilo para mostrar el token */
+        #tokenDisplay {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
     </style>
 </head>
 
@@ -228,37 +236,49 @@
             <p>Email: contacto@voice4voice.tel</p>
             <p>Teléfono: +789 23456 7890</p>
         </section>
+
+        <div id="tokenDisplay"></div> <!-- Div para mostrar el token -->
     </div>
 
     <div id="myModal" class="modal">
         <div class="modal-content">
             <button class="toggle-modal" id="toggleButton">Te Llamamos</button>
-            <h2>Te llamamos</h2>
-            <form id="callbackForm" onsubmit="return handleCallback();">
+            <span class="close" id="closeButton">&times;</span>
+            <h2>Solicitud de Llamada</h2>
+            <form onsubmit="return handleCallback();">
                 <div class="form-group">
                     <label for="name">Nombre:</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" required>
                 </div>
                 <div class="form-group">
-                    <label for="phone">Número de Teléfono:</label>
-                    <input type="tel" id="phone" name="phone" required>
+                    <label for="phone">Teléfono:</label>
+                    <input type="tel" id="phone" required>
                 </div>
                 <button type="submit" class="submit-button">Solicitar Llamada</button>
             </form>
         </div>
     </div>
 
+    <footer>
+        <p>© 2024 Voice4Voice - Todos los derechos reservados.</p>
+    </footer>
+
     <script>
         const modal = document.getElementById("myModal");
         const toggleButton = document.getElementById("toggleButton");
+        const closeButton = document.getElementById("closeButton");
 
         // Función para abrir y cerrar el modal
         toggleButton.onclick = function () {
             modal.style.transform = modal.style.transform === "translateY(0%)" ? "translateY(100%)" : "translateY(0%)";
         }
 
+        closeButton.onclick = function () {
+            modal.style.transform = "translateY(100%)";
+        }
+
+        // Maneja el callback de autorización
         function handleCallback() {
-            // Datos del formulario
             const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
 
@@ -274,6 +294,50 @@
 
             return false; // Evitar que el formulario se envíe
         }
+
+        // Función para manejar la redirección después de la autenticación
+        function handleAuthResponse() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code'); // Obtiene el código de autorización
+
+            if (code) {
+                // Intercambiar el código por un token de acceso
+                exchangeCodeForToken(code);
+            }
+        }
+
+        // Función para intercambiar el código de autorización por un token de acceso
+        function exchangeCodeForToken(code) {
+            const tokenUrl = "https://login.mypurecloud.ie/oauth/token";
+            const clientId = "de850a88-2b15-45b1-995d-38b94860dfaf";
+            const clientSecret = "enP1d2tQLXPaqZKXHpNZvGVX5eUjkZgsqF0slaJV84M"; // ¡No expongas esto en producción!
+            const redirectUri = "https://suberviola79.github.io/";
+
+            // Realizar la solicitud para obtener el token
+            fetch(tokenUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `grant_type=authorization_code&code=${code}&redirect_uri=${encodeURIComponent(redirectUri)}&client_id=${clientId}&client_secret=${clientSecret}`
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                // Muestra el token en pantalla
+                document.getElementById("tokenDisplay").innerText = `Token de acceso: ${data.access_token}`;
+            })
+            .catch(error => {
+                console.error('Error al obtener el token:', error);
+                document.getElementById("tokenDisplay").innerText = 'Error al obtener el token';
+            });
+        }
+
+        // Llama a la función para manejar la respuesta de autenticación al cargar la página
+        window.onload = handleAuthResponse;
+
     </script>
 </body>
 
