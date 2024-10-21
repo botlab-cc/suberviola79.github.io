@@ -36,7 +36,7 @@ async function getAccessToken() {
 
 // Función para crear un contacto
 async function createContact(token, nombre, apellido1, telefono, mail) {
-    const apiUrl = "https://api.mypurecloud.ie/api/v2/outbound/contactlists/${contactListId}/contacts";
+    const apiUrl = `https://api.mypurecloud.ie/api/v2/outbound/contactlists/${contactListId}/contacts`;
     const contactData = [{
         data: {
             NOMBRE: nombre,
@@ -81,9 +81,6 @@ callbackForm.onsubmit = async function (e) {
     const telefono = document.getElementById("phone").value;
     const apellido1 = "Apellido1"; // Valor hardcodeado
     const mail = "ejemplo@dominio.com"; // Valor hardcodeado
-
-    // Alert de depuración
-    alert("Depuración v1.0.1");
 
     // Obtener el token de acceso y crear el contacto
     const token = await getAccessToken();
