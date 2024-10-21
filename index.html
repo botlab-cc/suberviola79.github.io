@@ -52,7 +52,6 @@
             display: flex;
             justify-content: space-around;
             margin: 20px 0;
-            flex-wrap: wrap;
         }
 
         .service {
@@ -62,7 +61,6 @@
             padding: 20px;
             width: 30%;
             text-align: center;
-            margin-bottom: 20px;
         }
 
         .service img {
@@ -82,21 +80,26 @@
             width: 100%;
         }
 
+        /* Estilos para el modal */
         .modal {
             position: fixed;
             z-index: 1;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
+            left: 20px;
+            bottom: 20px;
             width: 300px;
-            background-color: rgb(255, 255, 255);
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.8);
             border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-            display: none; /* Initially hidden */
+            transition: all 0.3s ease;
+            transform: translateY(100%);
         }
 
         .modal-content {
+            background-color: #ffffff;
+            margin: 0;
             padding: 15px;
+            border: 1px solid #888;
+            border-radius: 8px;
         }
 
         .close {
@@ -123,7 +126,7 @@
         }
 
         .form-group input {
-            width: 100%;
+            width: 80%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -144,12 +147,28 @@
             background-color: #004494;
         }
 
+        /* Estilos para el widget de Dialogflow */
+        df-messenger {
+            z-index: 999;
+            position: fixed;
+            --df-messenger-font-color: #000;
+            --df-messenger-font-family: Google Sans;
+            --df-messenger-chat-background: #f3f6fc;
+            --df-messenger-message-user-background: #d3e3fd;
+            --df-messenger-message-bot-background: #fff;
+            bottom: 20px;
+            right: 20px;
+        }
+
+        /* Estilo del botón para abrir/cerrar el modal */
         .toggle-modal {
-            margin: 20px 0;
+            position: absolute;
+            top: -30px;
+            left: 10px;
             background-color: #0056b3;
             color: white;
             border: none;
-            padding: 10px 15px;
+            padding: 5px 10px;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
@@ -176,156 +195,64 @@
             <h2>Nuestros Servicios</h2>
             <div class="services">
                 <div class="service">
-                    <img src="https://images.pexels.com/photos/2685280/pexels-photo-2685280.jpeg" alt="Servicio 1">
-                    <h3>Servicio 1</h3>
-                    <p>Descripción breve del servicio 1.</p>
+                    <img src="https://images.pexels.com/photos/2685280/pexels-photo-2685280.jpeg" alt="Planes de Telefonía">
+                    <h3>Planes de Telefonía</h3>
+                    <p>Ofrecemos una variedad de planes que se adaptan a tus necesidades.</p>
                 </div>
                 <div class="service">
-                    <img src="https://images.pexels.com/photos/2676072/pexels-photo-2676072.jpeg" alt="Servicio 2">
-                    <h3>Servicio 2</h3>
-                    <p>Descripción breve del servicio 2.</p>
+                    <img src="https://images.pexels.com/photos/3184406/pexels-photo-3184406.jpeg" alt="Internet Rápido">
+                    <h3>Internet Rápido</h3>
+                    <p>Disfruta de una conexión a Internet veloz y estable.</p>
                 </div>
                 <div class="service">
-                    <img src="https://images.pexels.com/photos/2676012/pexels-photo-2676012.jpeg" alt="Servicio 3">
-                    <h3>Servicio 3</h3>
-                    <p>Descripción breve del servicio 3.</p>
+                    <img src="https://images.pexels.com/photos/3184297/pexels-photo-3184297.jpeg" alt="Soporte 24/7">
+                    <h3>Soporte 24/7</h3>
+                    <p>Estamos aquí para ayudarte en cualquier momento del día.</p>
                 </div>
             </div>
         </section>
 
-        <button class="toggle-modal">Solicitar Llamada</button>
+        <section id="about">
+            <h2>Sobre Nosotros</h2>
+            <p>En Voice4Voice, nuestra misión es ofrecerte las mejores soluciones de telecomunicaciones. Con un equipo experto y tecnología de vanguardia, estamos comprometidos a mantenerte conectado.</p>
+            <h3>Misión</h3>
+            <p>Proporcionar servicios de telecomunicaciones de alta calidad, adaptados a las necesidades de nuestros clientes.</p>
+            <h3>Visión</h3>
+            <p>Ser la compañía de telecomunicaciones más confiable, innovadora y centrada en el cliente.</p>
+        </section>
 
-        <div class="modal" id="requestCallModal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h3>Solicitar Llamada</h3>
-                <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" required>
-                </div>
-                <div class="form-group">
-                    <label for="apellido">Apellido</label>
-                    <input type="text" id="apellido" required>
-                </div>
-                <div class="form-group">
-                    <label for="telefono">Teléfono</label>
-                    <input type="text" id="telefono" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" required>
-                </div>
-                <button id="submitContact" class="submit-button">Enviar</button>
-            </div>
-        </div>
+        <section id="contact" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <h2>Contacto</h2>
+            <p>¿Tienes preguntas? ¡Contáctanos!</p>
+            <p>Email: contacto@voice4voice.tel</p>
+            <p>Teléfono: +789 23456 7890</p>
+        </section>
 
-        <footer>
-            <p>&copy; 2024 Voice4Voice. Todos los derechos reservados.</p>
-        </footer>
     </div>
 
-    <script>
-        // Manejador del modal
-        document.addEventListener('DOMContentLoaded', () => {
-            const modal = document.getElementById('requestCallModal');
-            const toggleModal = document.querySelector('.toggle-modal');
-            const closeModal = document.querySelector('.close');
-            const submitButton = document.getElementById('submitContact');
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <button class="toggle-modal" id="toggleButton">Te Llamamos</button>
+            <h2>Te llamamos</h2>
+            <form id="callbackForm">
+                <div class="form-group">
+                    <label for="name">Nombre:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Número de Teléfono:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <button type="submit" class="submit-button">Solicitar Llamada</button>
+            </form>
+        </div>
+    </div>
 
-            toggleModal.onclick = () => {
-                modal.style.display = 'block'; // Show modal
-            };
+    <footer>
+        <p>&copy; 2024 Voice4Voice. Todos los derechos reservados.</p>
+    </footer>
 
-            closeModal.onclick = () => {
-                modal.style.display = 'none'; // Hide modal
-            };
-
-            submitButton.onclick = async () => {
-                const nombre = document.getElementById('nombre').value;
-                const apellido = document.getElementById('apellido').value;
-                const telefono = document.getElementById('telefono').value;
-                const email = document.getElementById('email').value;
-
-                // Aquí puedes implementar la lógica para obtener el código de autorización
-                const authorizationCode = "YOUR_AUTHORIZATION_CODE"; // Este valor debe ser dinámico.
-
-                try {
-                    const response = await fetch(`http://localhost:3000/callback?code=${authorizationCode}`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                    });
-
-                    const data = await response.text();
-                    alert(data); // Mostrar el token o el mensaje de éxito
-                    modal.style.display = 'none'; // Cerrar el modal
-                } catch (error) {
-                    alert('Error al solicitar la llamada.');
-                    console.error(error);
-                }
-            };
-        });
-
-        // Servidor backend (Node.js)
-        const express = require('express');
-        const axios = require('axios');
-        const querystring = require('querystring');
-
-        const app = express();
-        const port = 3000;
-
-        // Middleware para parsear JSON
-        app.use(express.json());
-
-        // Ruta para manejar el callback de OAuth y obtener el token
-        app.get('/callback', async (req, res) => {
-            const code = req.query.code;
-
-            try {
-                const tokenResponse = await axios.post('https://login.mypurecloud.ie/oauth/token', querystring.stringify({
-                    grant_type: 'authorization_code',
-                    code: code,
-                    redirect_uri: 'https://suberviola79.github.io/',
-                    client_id: 'de850a88-2b15-45b1-995d-38b94860dfaf',
-                    client_secret: 'enP1d2tQLXPaqZKXHpNZvGVX5eUjkZgsqF0slaJV84M'
-                }));
-
-                const accessToken = tokenResponse.data.access_token;
-
-                // Crear contacto en Genesys Cloud
-                const contactListId = '74832173-7c59-4e01-8844-b4ab999fe103'; // Reemplaza con tu ID de lista de contactos
-                const contactData = [
-                    {
-                        data: {
-                            NOMBRE: nombre,
-                            APELLIDO1: apellido,
-                            TELEFONO: telefono,
-                            MAIL: email
-                        },
-                        callable: true
-                    }
-                ];
-
-                await axios.post(`https://api.mypurecloud.ie/api/v2/outbound/contactlists/${contactListId}/contacts`, contactData, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                res.send('Contacto creado con éxito.');
-            } catch (error) {
-                console.error(error);
-                res.status(500).send('Error al autenticar o crear el contacto.');
-            }
-        });
-
-        // Iniciar el servidor
-        app.listen(port, () => {
-            console.log(`Servidor escuchando en http://localhost:${port}`);
-        });
-    </script>
+    <script src="index.js"></script> <!-- Incluir el archivo index.js -->
 </body>
 
 </html>
