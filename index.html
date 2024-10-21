@@ -102,20 +102,6 @@
             border-radius: 8px;
         }
 
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
         .form-group {
             margin-bottom: 15px;
         }
@@ -202,68 +188,132 @@
                 <div class="service">
                     <img src="https://images.pexels.com/photos/3184406/pexels-photo-3184406.jpeg" alt="Internet Rápido">
                     <h3>Internet Rápido</h3>
-                    <p>Disfruta de una conexión a Internet veloz y estable.</p>
+                    <p>Disfruta de una conexión a Internet rápida y confiable.</p>
                 </div>
                 <div class="service">
-                    <img src="https://images.pexels.com/photos/3184297/pexels-photo-3184297.jpeg" alt="Soporte 24/7"> <!-- Nueva imagen para soporte 24/7 -->
-                    <h3>Soporte 24/7</h3>
-                    <p>Estamos aquí para ayudarte en cualquier momento del día.</p>
+                    <img src="https://images.pexels.com/photos/4050356/pexels-photo-4050356.jpeg" alt="Soporte Técnico">
+                    <h3>Soporte Técnico</h3>
+                    <p>Estamos disponibles 24/7 para ayudarte con cualquier problema.</p>
                 </div>
             </div>
         </section>
 
-        <section id="about">
-            <h2>Sobre Nosotros</h2>
-            <p>En Voice4Voice, nuestra misión es ofrecerte las mejores soluciones de telecomunicaciones. Con un equipo experto y tecnología de vanguardia, estamos comprometidos a mantenerte conectado.</p>
-            <h3>Misión</h3>
-            <p>Proporcionar servicios de telecomunicaciones de alta calidad, adaptados a las necesidades de nuestros clientes.</p>
-            <h3>Visión</h3>
-            <p>Ser la compañía de telecomunicaciones más confiable, innovadora y centrada en el cliente.</p>
-        </section>
-
-        <section id="contact" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-            <h2>Contacto</h2>
-            <p>¿Tienes preguntas? ¡Contáctanos!</p>
-            <p>Email: contacto@voice4voice.tel</p>
-            <p>Teléfono: +34919611466</p>
-        </section>
-
-    </div>
-
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <button class="toggle-modal" id="toggleButton">Te Llamamos</button>
-            <h2>Te llamamos</h2>
-            <form id="callbackForm">
-                <div class="form-group">
-                    <label for="name">Nombre:</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Número de Teléfono:</label>
-                    <input type="tel" id="phone" name="phone" required>
-                </div>
-                <button type="submit" class="submit-button">Solicitar Llamada</button>
-            </form>
+        <div class="hero">
+            <h1>¡Contáctanos!</h1>
         </div>
+
+        <!-- Botón para abrir el modal -->
+        <button class="toggle-modal" onclick="openModal()">Solicitar Callback</button>
+
+        <!-- Modal -->
+        <div class="modal" id="modal">
+            <div class="modal-content">
+                <h2>Formulario de Contacto</h2>
+                <form id="callbackForm">
+                    <div class="form-group">
+                        <label for="name">Nombre:</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Teléfono:</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    <button type="submit" class="submit-button">Enviar</button>
+                </form>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 Voice4Voice. Todos los derechos reservados.</p>
+        </footer>
     </div>
 
-    <!-- Script para controlar el modal -->
     <script>
-        const modal = document.getElementById("myModal");
-        const toggleButton = document.getElementById("toggleButton");
+        // Función para abrir el modal
+        function openModal() {
+            const modal = document.getElementById('modal');
+            modal.style.transform = "translateY(0)";
+        }
 
-        toggleButton.onclick = function () {
-            modal.style.transform = modal.style.transform === "translateY(0%)" ? "translateY(100%)" : "translateY(0%)";
-        };
+        // Credenciales de autorización
+        const clientId = 'de850a88-2b15-45b1-995d-38b94860dfaf'; // Client ID proporcionado
+        const clientSecret = 'enP1d2tQLXPaqZKXHpNZvGVX5eUjkZgsqF0slaJV84M'; // Client Secret proporcionado
+        const username = 'raul.suberviola@accenture.com'; // Usuario proporcionado
+        const password = 'Romanel#9966'; // Contraseña proporcionada
 
+        // Función para obtener el token de acceso
+        async function getAccessToken() {
+            const url = 'https://api.mypurecloud.ie/oauth/token'; // Asegúrate de usar el endpoint correcto
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `grant_type=password&client_id=${clientId}&client_secret=${clientSecret}&username=${username}&password=${password}`,
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al obtener el token de acceso');
+            }
+
+            const data = await response.json();
+            return data.access_token; // Retorna el token de acceso
+        }
+
+        // Función para añadir un contacto a la lista
+        async function addContactToList(token, contactListId, contactData) {
+            const url = `https://api.mypurecloud.ie/api/v2/outbound/contactlists/${contactListId}/contacts`;
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(contactData)
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al añadir el contacto');
+            }
+
+            return await response.json(); // Retorna la respuesta del servidor
+        }
+
+        // Lógica del formulario
         const callbackForm = document.getElementById("callbackForm");
-        callbackForm.onsubmit = function (e) {
+        callbackForm.onsubmit = async function (e) {
             e.preventDefault();
-            alert("¡Gracias! Te contactaremos pronto.");
-            callbackForm.reset();
-            modal.style.transform = "translateY(100%)"; // Minimizar el modal después del envío
+
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const email = 'contacto@voice4voice.tel'; // Correo de contacto predeterminado
+            const token = await getAccessToken(); // Obtener el token de acceso
+
+            const contactData = [{
+                data: {
+                    NOMBRE: name,
+                    APELLIDO1: '', // Puedes agregar más campos según sea necesario
+                    TELEFONO: phone,
+                    MAIL: email,
+                },
+                callable: true,
+            }];
+
+            try {
+                const contactListId = '74832173-7c59-4e01-8844-b4ab999fe103'; // Reemplaza con el ID de tu lista de contactos
+                const response = await addContactToList(token, contactListId, contactData);
+                alert("¡Gracias! Te contactaremos pronto.");
+                callbackForm.reset();
+                const modal = document.getElementById('modal');
+                modal.style.transform = "translateY(100%)"; // Minimizar el modal después del envío
+            } catch (error) {
+                console.error('Error al crear el contacto:', error);
+                alert("Hubo un problema al procesar tu solicitud. Por favor, inténtalo de nuevo.");
+            }
         };
+
     </script>
 
     <!-- Widget de Dialogflow Messenger -->
