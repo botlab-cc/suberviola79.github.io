@@ -83,6 +83,18 @@ async function createContact(accessToken, name, lastName, phone, email) {
     }
 }
 
+// Función para abrir el modal
+function openModal() {
+    const modal = document.getElementById("myModal");
+    modal.style.transform = "translateY(0%)"; // Muestra el modal
+}
+
+// Función para cerrar el modal
+function closeModal() {
+    const modal = document.getElementById("myModal");
+    modal.style.transform = "translateY(100%)"; // Oculta el modal
+}
+
 // Evento al enviar el formulario
 const callbackForm = document.getElementById("callbackForm");
 callbackForm.onsubmit = async function (e) {
@@ -101,4 +113,12 @@ callbackForm.onsubmit = async function (e) {
     if (accessToken) {
         await createContact(accessToken, name, lastName, phone, email);
     }
+
+    closeModal(); // Cierra el modal después de enviar el formulario
 };
+
+// Evento para abrir el modal cuando se carga la página
+document.addEventListener("DOMContentLoaded", function() {
+    const toggleButton = document.getElementById("toggleButton");
+    toggleButton.onclick = openModal; // Asignar evento al botón para abrir el modal
+});
