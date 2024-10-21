@@ -41,18 +41,23 @@ async function createContact(name, phone, surname, email) {
 
         const accessToken = await getAccessToken(); // Obtiene el token
 
+        // Imprimir datos que se van a enviar para depuración
+        const contactData = {
+            name: name,
+            phone: phone,
+            surname: surname,
+            email: email
+        };
+
+        alert("Datos del contacto a enviar: " + JSON.stringify(contactData));
+
         const response = await fetch(apiUrl, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${accessToken}`,
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                name: name,
-                phone: phone,
-                surname: surname,
-                email: email
-            })
+            body: JSON.stringify(contactData) // Cuerpo del JSON
         });
 
         if (!response.ok) {
@@ -94,4 +99,3 @@ document.getElementById("callbackForm").onsubmit = function(event) {
 
     createContact(name, phone, surname, email); // Llama a la función para crear el contacto
 };
-
