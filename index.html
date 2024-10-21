@@ -52,6 +52,7 @@
             display: flex;
             justify-content: space-around;
             margin: 20px 0;
+            flex-wrap: wrap;
         }
 
         .service {
@@ -61,6 +62,7 @@
             padding: 20px;
             width: 30%;
             text-align: center;
+            margin-bottom: 20px;
         }
 
         .service img {
@@ -83,22 +85,18 @@
         .modal {
             position: fixed;
             z-index: 1;
-            left: 20px;
-            bottom: 20px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
             width: 300px;
-            background-color: rgb(0, 0, 0);
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgb(255, 255, 255);
             border-radius: 8px;
-            transition: all 0.3s ease;
-            transform: translateY(100%);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            display: none; /* Initially hidden */
         }
 
         .modal-content {
-            background-color: #ffffff;
-            margin: 0;
             padding: 15px;
-            border: 1px solid #888;
-            border-radius: 8px;
         }
 
         .close {
@@ -125,7 +123,7 @@
         }
 
         .form-group input {
-            width: 80%;
+            width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -146,26 +144,12 @@
             background-color: #004494;
         }
 
-        df-messenger {
-            z-index: 999;
-            position: fixed;
-            --df-messenger-font-color: #000;
-            --df-messenger-font-family: Google Sans;
-            --df-messenger-chat-background: #f3f6fc;
-            --df-messenger-message-user-background: #d3e3fd;
-            --df-messenger-message-bot-background: #fff;
-            bottom: 20px;
-            right: 20px;
-        }
-
         .toggle-modal {
-            position: absolute;
-            top: -30px;
-            left: 10px;
+            margin: 20px 0;
             background-color: #0056b3;
             color: white;
             border: none;
-            padding: 5px 10px;
+            padding: 10px 15px;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
@@ -249,11 +233,11 @@
             const submitButton = document.getElementById('submitContact');
 
             toggleModal.onclick = () => {
-                modal.style.transform = 'translateY(0)';
+                modal.style.display = 'block'; // Show modal
             };
 
             closeModal.onclick = () => {
-                modal.style.transform = 'translateY(100%)';
+                modal.style.display = 'none'; // Hide modal
             };
 
             submitButton.onclick = async () => {
@@ -275,6 +259,7 @@
 
                     const data = await response.text();
                     alert(data); // Mostrar el token o el mensaje de éxito
+                    modal.style.display = 'none'; // Cerrar el modal
                 } catch (error) {
                     alert('Error al solicitar la llamada.');
                     console.error(error);
