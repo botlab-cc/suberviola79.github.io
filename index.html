@@ -86,6 +86,7 @@
             left: 20px;
             bottom: 20px;
             width: 300px;
+            background-color: rgb(0, 0, 0);
             background-color: rgba(0, 0, 0, 0.8);
             border-radius: 8px;
             transition: all 0.3s ease;
@@ -236,39 +237,46 @@
                 </div>
                 <div class="form-group">
                     <label for="phone">Número de Teléfono:</label>
-                    <input type="tel" id="phone" name="phone" required>
+                    <input type="text" id="phone" name="phone" required>
                 </div>
-                <button type="submit" class="submit-button">Solicitar Llamada</button>
+                <button type="submit" class="submit-button">Enviar Solicitud</button>
             </form>
-            <button id="loginButton" class="submit-button">Iniciar Sesión</button>
+            <span class="close">&times;</span>
         </div>
     </div>
 
+    <footer>
+        <p>&copy; 2024 Voice4Voice. Todos los derechos reservados.</p>
+    </footer>
+
     <script>
-        const CLIENT_ID = "de850a88-2b15-45b1-995d-38b94860dfaf";
-        const CLIENT_SECRET = "enP1d2tQLXPaqZKXHpNZvGVX5eUjkZgsqF0slaJV84M";
-        const TOKEN_URL = "https://login.mypurecloud.ie/oauth/token";
+        // Variables de configuración de Genesys Cloud
+        const CLIENT_ID = 'de850a88-2b15-45b1-995d-38b94860dfaf'; // Reemplaza con tu CLIENT_ID
+        const CLIENT_SECRET = 'enP1d2tQLXPaqZKXHpNZvGVX5eUjkZgsqF0slaJV84M'; // Reemplaza con tu CLIENT_SECRET
+        const REDIRECT_URI = 'https://suberviola79.github.io/'; // URL de redirección
+        const AUTH_URL = 'https://login.mypurecloud.ie/oauth/authorize';
+        const TOKEN_URL = 'https://login.mypurecloud.ie/oauth/token';
 
-        // Usuario y contraseña ficticios
-        const TEST_USERNAME = "raul.suberviola@accenture.com";
-        const TEST_PASSWORD = "Romanel#9966";
+        // Botón para iniciar sesión
+        const loginButton = document.createElement('button');
+        loginButton.textContent = 'Iniciar sesión';
+        loginButton.style.margin = '10px';
+        document.body.appendChild(loginButton);
 
-        const modal = document.getElementById("myModal");
-        const toggleButton = document.getElementById("toggleButton");
-        const loginButton = document.getElementById("loginButton");
-        const callbackForm = document.getElementById("callbackForm");
-
-        toggleButton.onclick = function () {
-            modal.style.transform = modal.style.transform === "translateY(0%)" ? "translateY(100%)" : "translateY(0%)";
+        loginButton.onclick = function () {
+            const scope = 'all'; // Ajusta el alcance según tus necesidades
+            const url = `${AUTH_URL}?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=${encodeURIComponent(scope)}`;
+            window.location.href = url; // Redirigir al usuario a Genesys Cloud
         };
 
-        loginButton.onclick = async function () {
+        // Función para manejar el intercambio de código por token
+        async function exchangeCodeForToken(code) {
             const params = new URLSearchParams({
-                grant_type: 'password',
-                username: TEST_USERNAME,
-                password: TEST_PASSWORD,
+                grant_type: 'authorization_code',
                 client_id: CLIENT_ID,
                 client_secret: CLIENT_SECRET,
+                redirect_uri: REDIRECT_URI,
+                code: code,
             });
 
             try {
@@ -282,36 +290,47 @@
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error('Error en la autenticación: ' + JSON.stringify(errorData));
+                    throw new Error('Error al obtener el token: ' + JSON.stringify(errorData));
                 }
 
                 const data = await response.json();
-                alert("Inicio de sesión exitoso. Token de acceso: " + data.access_token);
+                alert("Token de acceso obtenido: " + data.access_token);
                 callbackForm.style.display = "block"; // Mostrar el formulario de llamada
 
             } catch (error) {
-                alert("Error al iniciar sesión: " + error.message);
+                alert("Error al intercambiar el código por token: " + error.message);
+            }
+        }
+
+        // Manejar la redirección después de la autenticación
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        if (code) {
+            exchangeCodeForToken(code); // Intercambiar el código por un token
+        }
+
+        // Mostrar/ocultar el formulario de llamada
+        const toggleButton = document.getElementById('toggleButton');
+        const callbackForm = document.getElementById('callbackForm');
+
+        toggleButton.onclick = function () {
+            callbackForm.style.display = callbackForm.style.display === "none" ? "block" : "none";
+        };
+
+        // Cerrar el modal
+        const modal = document.getElementById("myModal");
+        const span = document.getElementsByClassName("close")[0];
+
+        span.onclick = function () {
+            modal.style.display = "none";
+        };
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
             }
         };
-
-        callbackForm.onsubmit = function (e) {
-            e.preventDefault();
-            alert("¡Gracias! Te contactaremos pronto.");
-            callbackForm.reset();
-            modal.style.transform = "translateY(100%)"; // Minimizar el modal después del envío
-        };
     </script>
-
-    <df-messenger
-        project-id="lqairmh-agbg-iberia-song-ccai"
-        agent-id="cd50098d-eab6-48a8-8055-6935cab79f73"
-        language-code="es"
-        max-query-length="-1">
-        <df-messenger-chat-bubble chat-title="telco-acc-genai-cx-global">
-        </df-messenger-chat-bubble>
-    </df-messenger>
-
-    <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
 </body>
 
 </html>
