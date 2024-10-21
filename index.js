@@ -86,13 +86,13 @@ async function createContact(accessToken, name, lastName, phone, email) {
 // Función para abrir el modal
 function openModal() {
     const modal = document.getElementById("myModal");
-    modal.style.transform = "translateY(0%)"; // Muestra el modal
+    modal.style.display = "block"; // Mostrar el modal
 }
 
 // Función para cerrar el modal
 function closeModal() {
     const modal = document.getElementById("myModal");
-    modal.style.transform = "translateY(100%)"; // Oculta el modal
+    modal.style.display = "none"; // Ocultar el modal
 }
 
 // Evento al enviar el formulario
@@ -117,8 +117,17 @@ callbackForm.onsubmit = async function (e) {
     closeModal(); // Cierra el modal después de enviar el formulario
 };
 
-// Evento para abrir el modal cuando se carga la página
-document.addEventListener("DOMContentLoaded", function() {
-    const toggleButton = document.getElementById("toggleButton");
-    toggleButton.onclick = openModal; // Asignar evento al botón para abrir el modal
-});
+// Evento para abrir el modal cuando se hace clic en el botón
+const toggleButton = document.getElementById("toggleButton");
+toggleButton.onclick = openModal; // Asignar evento al botón para abrir el modal
+
+// Evento para cerrar el modal cuando se hace clic en la 'X' o fuera del modal
+const closeModalBtn = document.querySelector(".close");
+closeModalBtn.onclick = closeModal;
+
+const modal = document.getElementById("myModal");
+window.onclick = function(event) {
+    if (event.target === modal) {
+        closeModal();
+    }
+};
