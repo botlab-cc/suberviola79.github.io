@@ -51,7 +51,7 @@
         .services {
             display: flex;
             justify-content: space-around;
-            margin: 20px 0;
+            margin: 20px 0; /* Reducido el margen superior */
         }
 
         .service {
@@ -65,8 +65,8 @@
 
         .service img {
             max-width: 100%;
-            height: 200px;
-            object-fit: cover;
+            height: 200px; /* Altura fija para todas las imágenes */
+            object-fit: cover; /* Mantiene la proporción de la imagen */
             border-radius: 8px;
         }
 
@@ -84,14 +84,13 @@
         .modal {
             position: fixed;
             z-index: 1;
-            left: 20px;
-            bottom: 20px;
-            width: 300px;
-            background-color: rgb(0, 0, 0);
+            left: 20px; /* Posición a la izquierda */
+            bottom: 20px; /* Posición superior */
+            width: 300px; /* Ancho del modal */
             background-color: rgba(0, 0, 0, 0.8);
             border-radius: 8px;
-            transition: all 0.3s ease;
-            transform: translateY(100%);
+            transition: all 0.3s ease; /* Transición para abrir/cerrar */
+            transform: translateY(100%); /* Minimizado por defecto */
         }
 
         .modal-content {
@@ -126,7 +125,7 @@
         }
 
         .form-group input {
-            width: 80%;
+            width: 80%; /* Ancho reducido */
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -156,8 +155,8 @@
             --df-messenger-chat-background: #f3f6fc;
             --df-messenger-message-user-background: #d3e3fd;
             --df-messenger-message-bot-background: #fff;
-            bottom: 20px;
-            right: 20px;
+            bottom: 20px; /* Ajustar la posición superior */
+            right: 20px; /* Ajustar la posición derecha */
         }
 
         /* Estilo del botón para abrir/cerrar el modal */
@@ -227,97 +226,102 @@
             <p>Email: contacto@voice4voice.tel</p>
             <p>Teléfono: +789 23456 7890</p>
         </section>
-
     </div>
 
     <div id="myModal" class="modal">
         <div class="modal-content">
             <button class="toggle-modal" id="toggleButton">Te Llamamos</button>
-            <h2>Te llamamos</h2>
-            <form id="callbackForm">
+            <h2>Iniciar Sesión</h2>
+            <button id="loginButton" class="submit-button">Iniciar Sesión como Usuario de Prueba</button>
+
+            <form id="callbackForm" style="display: none;">
+                <h2>Solicitar Llamada</h2>
                 <div class="form-group">
-                    <label for="username">Usuario:</label>
-                    <input type="text" id="username" name="username" required>
+                    <label for="name">Nombre:</label>
+                    <input type="text" id="name" name="name" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">Contraseña:</label>
-                    <input type="password" id="password" name="password" required>
+                    <label for="phone">Teléfono:</label>
+                    <input type="tel" id="phone" name="phone" required>
                 </div>
-                <button type="submit" class="submit-button">Enviar</button>
+                <button type="submit" class="submit-button">Solicitar Llamada</button>
             </form>
-            <span class="close" id="closeModal">&times;</span>
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2024 Voice4Voice. Todos los derechos reservados.</p>
-    </footer>
-
+    <!-- Script para controlar el modal -->
     <script>
-        // Credenciales hardcodeadas
-        const VALID_USERNAME = "raul.suberviola@accenture.com"; // Cambia esto a tu usuario
-        const VALID_PASSWORD = "Romanel#9966"; // Cambia esto a tu contraseña
-
-        // Credenciales OAuth
         const CLIENT_ID = 'de850a88-2b15-45b1-995d-38b94860dfaf';
         const CLIENT_SECRET = 'enP1d2tQLXPaqZKXHpNZvGVX5eUjkZgsqF0slaJV84M';
+        const AUTH_URL = 'https://login.mypurecloud.ie/oauth/authorize';
+        const TOKEN_URL = 'https://login.mypurecloud.ie/oauth/token';
+        const CALLBACK_URL = 'https://www.getpostman.com/oauth2/callback';
 
-        // Mostrar el modal
-        document.getElementById('toggleButton').onclick = function () {
-            document.getElementById('myModal').style.transform = 'translateY(0)';
+        const TEST_USERNAME = 'raul.suberviola@accenture.com'; // Usuario de prueba
+        const TEST_PASSWORD = 'Romanel#9966'; // Contraseña de prueba
+
+        const modal = document.getElementById("myModal");
+        const toggleButton = document.getElementById("toggleButton");
+        const loginButton = document.getElementById("loginButton");
+        const callbackForm = document.getElementById("callbackForm");
+
+        toggleButton.onclick = function () {
+            modal.style.transform = modal.style.transform === "translateY(0%)" ? "translateY(100%)" : "translateY(0%)";
         };
 
-        // Cerrar el modal
-        document.getElementById('closeModal').onclick = function () {
-            document.getElementById('myModal').style.transform = 'translateY(100%)';
-        };
+        loginButton.onclick = async function () {
+            const params = new URLSearchParams({
+                grant_type: 'password',
+                username: TEST_USERNAME,
+                password: TEST_PASSWORD,
+                client_id: CLIENT_ID,
+                client_secret: CLIENT_SECRET,
+                redirect_uri: CALLBACK_URL
+            });
 
-        // Manejo de envío de formulario
-        document.getElementById('callbackForm').onsubmit = function (e) {
-            e.preventDefault(); // Evita el envío por defecto
-
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            // Validar credenciales hardcodeadas
-            if (username === VALID_USERNAME && password === VALID_PASSWORD) {
-                // Intercambiar el usuario y contraseña por un token de acceso
-                const tokenEndpoint = 'https://login.mypurecloud.ie/oauth/token';
-
-                fetch(tokenEndpoint, {
+            try {
+                const response = await fetch(TOKEN_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
-                        'Authorization': 'Basic ' + btoa(`${CLIENT_ID}:${CLIENT_SECRET}`)
                     },
-                    body: new URLSearchParams({
-                        grant_type: 'password', // Tipo de grant
-                        username: username,
-                        password: password
-                    })
-                })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error('Error en la autenticación');
-                    }
-                })
-                .then(data => {
-                    const accessToken = data.access_token;
-                    console.log('Access Token:', accessToken);
-                    alert('Inicio de sesión exitoso.');
-                    document.getElementById('myModal').style.transform = 'translateY(100%)'; // Cerrar el modal
-                })
-                .catch(error => {
-                    console.error('Error al obtener el token:', error);
-                    alert('Error al iniciar sesión. ' + error.message);
+                    body: params
                 });
-            } else {
-                alert('Usuario o contraseña incorrectos.');
+
+                if (!response.ok) {
+                    throw new Error('Error en la autenticación');
+                }
+
+                const data = await response.json();
+                alert("Inicio de sesión exitoso. Token de acceso: " + data.access_token);
+                callbackForm.style.display = "block"; // Mostrar el formulario de llamada
+
+            } catch (error) {
+                alert("Error al iniciar sesión: " + error.message);
             }
         };
+
+        callbackForm.onsubmit = function (e) {
+            e.preventDefault();
+            alert("¡Gracias! Te contactaremos pronto.");
+            callbackForm.reset();
+            modal.style.transform = "translateY(100%)"; // Minimizar el modal después del envío
+            // Volver a ocultar el formulario de llamada
+            callbackForm.style.display = "none";
+        };
     </script>
+
+    <!-- Widget de Dialogflow Messenger -->
+    <df-messenger
+        project-id="lqairmh-agbg-iberia-song-ccai"
+        agent-id="cd50098d-eab6-48a8-8055-6935cab79f73"
+        language-code="es"
+        max-query-length="-1">
+        <df-messenger-chat-bubble chat-title="telco-acc-genai-cx-global">
+        </df-messenger-chat-bubble>
+    </df-messenger>
+
+    <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
 </body>
 
 </html>
