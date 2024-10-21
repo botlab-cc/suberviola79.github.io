@@ -1,40 +1,55 @@
 document.addEventListener("DOMContentLoaded", function () {
     const callbackForm = document.getElementById("callbackForm");
+    const modal = document.getElementById("myModal");
+    const closeButton = document.querySelector(".close");
+    const toggleButton = document.getElementById("toggleButton");
 
     // Detectar si estamos de vuelta con el code en la URL
     const urlParams = new URLSearchParams(window.location.search);
     const authCode = urlParams.get("code");
 
     if (authCode) {
-        // Si tenemos el authCode, realizar el intercambio por el access_token
         fetchToken(authCode);
     }
+
+    // Abrir el modal
+    toggleButton.onclick = function () {
+        modal.style.display = "block";
+    };
+
+    // Cerrar el modal
+    closeButton.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    // Cerrar el modal al hacer clic fuera del contenido
+    window.onclick = function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
 
     callbackForm.onsubmit = async function (e) {
         e.preventDefault();
 
-        // Obtener datos del formulario
         const name = document.getElementById("name").value;
         const phone = document.getElementById("phone").value;
 
-        // Almacenar temporalmente los datos en el almacenamiento local
         localStorage.setItem("name", name);
         localStorage.setItem("phone", phone);
 
-        // Redirigir a la URL de autorización de Genesys Cloud
-        const clientId = "de850a88-2b15-45b1-995d-38b94860dfaf"; // Reemplaza con tu Client ID
-        const redirectUri = "https://suberviola79.github.io/"; // Reemplaza con tu Callback URL
-        const scope = "outbound"; // Scope para crear contactos
+        const clientId = "de850a88-2b15-45b1-995d-38b94860dfaf"; // Client ID
+        const redirectUri = "https://suberviola79.github.io/"; // Callback URL
+        const scope = "outbound"; // Scope
         const authUrl = `https://login.mypurecloud.ie/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
 
-        // Redirigir a la URL de autorización
         window.location.href = authUrl;
     };
 
     async function fetchToken(code) {
-        const clientId = "de850a88-2b15-45b1-995d-38b94860dfaf"; // Reemplaza con tu Client ID
-        const clientSecret = "enP1d2tQLXPaqZKXHpNZvGVX5eUjkZgsqF0slaJV84M"; // Reemplaza con tu Client Secret
-        const redirectUri = "https://suberviola79.github.io/"; // Reemplaza con tu Callback URL
+        const clientId = "de850a88-2b15-45b1-995d-38b94860dfaf"; // Client ID
+        const clientSecret = "YOUR_CLIENT_SECRET"; // Client Secret
+        const redirectUri = "https://suberviola79.github.io/"; // Callback URL
 
         const tokenUrl = "https://login.mypurecloud.ie/oauth/token";
 
@@ -58,7 +73,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const data = await response.json();
 
             if (data.access_token) {
-                // Guardar el access_token y continuar con la creación del contacto
                 const accessToken = data.access_token;
                 const name = localStorage.getItem("name");
                 const phone = localStorage.getItem("phone");
@@ -69,7 +83,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     alert("Datos de contacto no encontrados.");
                 }
 
-                // Limpiar los datos del almacenamiento local
                 localStorage.removeItem("name");
                 localStorage.removeItem("phone");
             } else {
@@ -81,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     async function createContact(token, name, phone) {
-        const contactListId = "74832173-7c59-4e01-8844-b4ab999fe103"; // Reemplaza con tu contactListId
+        const contactListId = "74832173-7c59-4e01-8844-b4ab999fe103"; // contactListId
         const url = `https://api.mypurecloud.ie/api/v2/outbound/contactlists/${contactListId}/contacts`;
 
         const body = JSON.stringify([{
@@ -115,3 +128,4 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 });
+
