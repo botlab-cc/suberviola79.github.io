@@ -82,6 +82,9 @@ callbackForm.onsubmit = async function (e) {
     const apellido1 = "Apellido1"; // Valor hardcodeado
     const mail = "ejemplo@dominio.com"; // Valor hardcodeado
 
+    // Alert de depuración
+    alert("Depuración v1.0.1");
+
     // Obtener el token de acceso y crear el contacto
     const token = await getAccessToken();
     if (token) {
