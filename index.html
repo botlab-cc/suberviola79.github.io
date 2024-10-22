@@ -272,37 +272,6 @@
         <p>&copy; 2024 Voice4Voice. Todos los derechos reservados.</p>
     </footer>
 
-    <script>
-        // Abrir y cerrar el modal
-        var modal = document.getElementById("myModal");
-        var span = document.getElementsByClassName("close")[0];
-
-        // Manejo del envío del formulario
-        document.getElementById('callbackForm').onsubmit = function (event) {
-            event.preventDefault();
-            alert('Solicitud enviada. Nos pondremos en contacto contigo pronto.');
-            modal.style.display = "none";
-        }
-
-        // Funcionalidad del chatbot
-        const chatbotContainer = document.getElementById('chatbot-container');
-        const minimizeButton = document.getElementById('minimizeButton');
-        const chatbot = document.querySelector('df-messenger');
-
-        // Botón para minimizar/restaurar el chatbot
-        minimizeButton.onclick = function () {
-            if (chatbotContainer.classList.contains('minimized')) {
-                chatbotContainer.classList.remove('minimized'); // Restaura el tamaño
-                chatbotContainer.style.height = "400px"; // Altura cuando está expandido
-                minimizeButton.textContent = "-"; // Cambia el texto a "-"
-            } else {
-                chatbotContainer.classList.add('minimized'); // Minimiza el tamaño
-                chatbotContainer.style.height = "50px"; // Altura cuando está minimizado
-                minimizeButton.textContent = "+"; // Cambia el texto a "+"
-            }
-        };
-    </script>
-
 </body>
 
 </html>
