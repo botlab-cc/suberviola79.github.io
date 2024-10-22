@@ -147,6 +147,24 @@
         }
 
         /* Estilos para el chatbot */
+        #chatbot-button {
+            z-index: 999;
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            background-color: #0056b3;
+            color: white;
+            border-radius: 50px;
+            padding: 10px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #chatbot-button:hover {
+            background-color: #004494;
+        }
+
         df-messenger {
             z-index: 999;
             position: fixed;
@@ -155,10 +173,11 @@
             --df-messenger-chat-background: #f3f6fc;
             --df-messenger-message-user-background: #d3e3fd;
             --df-messenger-message-bot-background: #fff;
-            bottom: 16px;
+            bottom: 60px; /* Ajusta la posición del chatbot */
             right: 16px;
             width: 400px; /* Ajusta el ancho del chatbot */
             height: 500px; /* Ajusta la altura del chatbot */
+            display: none; /* Oculto por defecto */
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Añadir sombra */
         }
     </style>
@@ -251,10 +270,6 @@
         <df-messenger-chat-bubble chat-title="telco-acc-genai-cx-global"></df-messenger-chat-bubble>
     </df-messenger>
 
-    <footer>
-        <p>&copy; 2024 Voice4Voice. Todos los derechos reservados.</p>
-    </footer>
-
     <script>
         // Abrir y cerrar el modal
         var modal = document.getElementById("myModal");
@@ -281,7 +296,25 @@
             alert('Solicitud enviada. Nos pondremos en contacto contigo pronto.');
             modal.style.display = "none";
         }
+
+        // Funcionalidad del chatbot
+        const chatbotButton = document.getElementById('chatbot-button');
+        const chatbot = document.querySelector('df-messenger');
+
+        chatbotButton.onclick = function () {
+            if (chatbot.style.display === "none" || chatbot.style.display === "") {
+                chatbot.style.display = "block"; // Muestra el chatbot
+            } else {
+                chatbot.style.display = "none"; // Oculta el chatbot
+            }
+        };
     </script>
+
+    <div id="chatbot-button">Chat</div>
+
+    <footer>
+        <p>&copy; 2024 Voice4Voice. Todos los derechos reservados.</p>
+    </footer>
 
 </body>
 
