@@ -225,34 +225,36 @@
             </form>
         </div>
     </div>
-
+<link rel="stylesheet" href="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/themes/df-messenger-default.css">
+<script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
+<df-messenger
+  project-id="lqairmh-agbg-iberia-song-ccai"
+  agent-id="cd50098d-eab6-48a8-8055-6935cab79f73"
+  language-code="es"
+  max-query-length="-1">
+  <df-messenger-chat-bubble
+   chat-title="telco-acc-genai-cx-global">
+  </df-messenger-chat-bubble>
+</df-messenger>
+<style>
+  df-messenger {
+    z-index: 999;
+    position: fixed;
+    --df-messenger-font-color: #000;
+    --df-messenger-font-family: Google Sans;
+    --df-messenger-chat-background: #f3f6fc;
+    --df-messenger-message-user-background: #d3e3fd;
+    --df-messenger-message-bot-background: #fff;
+    bottom: 16px;
+    right: 16px;
+  }
+</style>
     <footer>
         <p>&copy; 2024 Voice4Voice. Todos los derechos reservados.</p>
     </footer>
 
     <script src="index.js"></script> <!-- Enlazar con el archivo JavaScript -->
 
-    <!-- Código para integrar el chatbot de Dialogflow -->
-    <link rel="stylesheet" href="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/themes/df-messenger-default.css">
-    <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
-    <df-messenger
-      project-id="lqairmh-agbg-iberia-song-ccai"
-      agent-id="cd50098d-eab6-48a8-8055-6935cab79f73"
-      language-code="es"
-      max-query-length="-1">
-      <df-messenger-chat-bubble
-       chat-title="telco-acc-genai-cx-global">
-      </df-messenger-chat-bubble>
-    </df-messenger>
-    <style>
-      df-messenger {
-        z-index: 999;
-        position: fixed;
-        --df-messenger-font-color: #000;
-        --df-messenger-send-icon: #0056b3;
-        --df-messenger-chat-background-color: #e9f5ff;
-      }
-    </style>
 
 </body>
 
