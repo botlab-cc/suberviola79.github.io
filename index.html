@@ -301,6 +301,10 @@
         const chatbotButton = document.getElementById('chatbot-button');
         const chatbot = document.querySelector('df-messenger');
 
+        // Inicializamos el chatbot
+        chatbot.style.display = "none"; // Asegúrate de que el chatbot esté oculto inicialmente
+
+        // Botón para abrir y cerrar el chatbot
         chatbotButton.onclick = function () {
             if (chatbot.style.display === "none" || chatbot.style.display === "") {
                 chatbot.style.display = "block"; // Muestra el chatbot
